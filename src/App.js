@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import engenLogo from './images/engeneratorLogo.png';
+import cLogo from './images/cLogo.png';
 import './App.css';
+import { ThemeProvider } from '@mui/material/styles';
+import { engen_theme } from './theme';
+import ShopGen from './content/ShopGen';
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ThemeProvider theme={engen_theme}>
+        <div className='App-header'>
+          <img src={engenLogo} alt="engenerator" className='engen-logo' />
+        </div>
+        <div className='page'>
+          <ShopGen />
+        </div>
+        <footer className='App-footer'>
+          <img src={cLogo} alt="site by C" className='designer-logo' />
+        </footer>
+      </ThemeProvider>
     </div>
   );
 }
