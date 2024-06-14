@@ -18,4 +18,5 @@
     width: calc((100% - 20px) * 2 / 3);
     overflow: scroll;
     text-align: left;
+    white-space: preserve;
 }

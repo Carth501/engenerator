@@ -5,6 +5,7 @@ import Input from '@mui/material/Input';
 import './ShopGen.css';
 import ShopNames from './ShopNames.json'
 import PersonNames from './PersonNames.json'
+import Items from './Items.json'
 
 let rand = new Rand('1234');
 
@@ -13,8 +14,8 @@ function ShopGen() {
     const [results, setResults] = useState("");
 
     function generate() {
-        let text = writeShop()
-        setResults(text.name)
+        let shop = generateShop()
+        setResults(writeText(shop))
     }
 
     function setSeed(new_seed) {
@@ -26,52 +27,90 @@ function ShopGen() {
         setNums(shopValues);
     }
 
-    function writeShop() {
+    function writeText(shop) {
+        let text = "";
+        text += "Name: " + shop.name + "\n";
+        text += "Owner: " + shop.owner;
+        console.log(text);
+        return text;
+    }
+
+    function generateShop() {
         const shop = {};
-        if (nums[0] > 0.4 && false) {
-            shop["name"] = getGenericName();
+        shop["owner"] = getRandomOfStringType("person")
+        if (nums[0] > 0.4) {
+            getGenericName(shop);
         }
         else {
-            shop["name"] = getSpecificName();
+            getSpecificName(shop);
         }
         return shop;
     }
 
-    function getGenericName() {
+    function getGenericName(shop) {
         let value = nums[0] % 0.4 * 2.5;
         let nameIndex = Math.floor(ShopNames.generic_names.length * value);
-        return ShopNames.generic_names[nameIndex];
+        shop["name"] = ShopNames.generic_names[nameIndex];
     }
 
-    function getSpecificName() {
+    function getSpecificName(shop) {
         let value = nums[0] % 0.5 * 2;
-        return getNamedAfterPerson()
-        // if (value > 0.5) {
-        // }
+        if (value > 0.2) {
+            getNamedAfterPerson(shop);
+        }
+        else {
+            getNamedAfterItem(shop);
+        }
     }
 
-    function getNamedAfterPerson() {
-        let value = nums[0] % 0.25 * 4;
-        const def = ShopNames.specific_names.named_after_person;
-        let name = ""
-        console.log(def)
+    function getNamedAfterItem(shop) {
+        const def = ShopNames.specific_names.named_after_item;
+        let name = "";
         for (let i = 0; i < def.name.length; i++) {
             if (def.name.length > i) {
-                name = name.concat(def.name[i])
+                name = name.concat(def.name[i]);
             }
             if (def.inputs.length > i) {
-                name = name.concat(getRandomOfStringType(def.inputs[i]))
+                name = name.concat(getRandomOfStringType(def.inputs[i]));
             }
         }
-        return name;
+        shop["name"] = name;
+    }
+
+    function getNamedAfterPerson(shop) {
+        const def = ShopNames.specific_names.named_after_person;
+        let name = "";
+        for (let i = 0; i < def.name.length; i++) {
+            if (def.name.length > i) {
+                name = name.concat(def.name[i]);
+            }
+            if (def.inputs.length > i) {
+                if (def.inputs[i] === "owner") {
+                    name = name.concat(shop.owner);
+                }
+                else {
+                    const person = getRandomOfStringType(def.inputs[i]);
+                    name = name.concat(person);
+                }
+            }
+        }
+        shop["name"] = name;
     }
 
     function getRandomOfStringType(catagory) {
-        const value = nums[0] % 0.2 * 5;
+        let value = nums[0] % 0.25 * 4;
         if (catagory === "person") {
-            const index = Math.floor(PersonNames.generic_english.length * value)
-            return PersonNames.generic_english[index]
+            const index = Math.floor(PersonNames.generic_english.length * value);
+            return PersonNames.generic_english[index];
         }
+        else if (catagory === "plural_item") {
+            const index = Math.floor(Items.plural_items.length * value);
+            return capitalize(Items.plural_items[index]);
+        }
+    }
+
+    function capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     return (

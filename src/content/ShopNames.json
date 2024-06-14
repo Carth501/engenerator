@@ -10,7 +10,7 @@
                 "'s Shop"
             ],
             "inputs": [
-                "person"
+                "owner"
             ]
         },
         "named_after_item": {
