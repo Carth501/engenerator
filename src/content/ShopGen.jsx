@@ -6,6 +6,7 @@ import './ShopGen.css';
 import ShopNames from './ShopNames.json'
 import PersonNames from './PersonNames.json'
 import Items from './Items.json'
+import ageTransform from './Tools.js'
 
 let rand = new Rand('1234');
 
@@ -30,7 +31,8 @@ function ShopGen() {
     function writeText(shop) {
         let text = "";
         text += "Name: " + shop.name + "\n";
-        text += "Owner: " + shop.owner;
+        text += "Owner: " + shop.owner + "\n";
+        text += "Number of Active Years: " + shop.age
         console.log(text);
         return text;
     }
@@ -44,6 +46,7 @@ function ShopGen() {
         else {
             getSpecificName(shop);
         }
+        shop["age"] = ageTransform(nums[0], 10, 30)
         return shop;
     }
 
