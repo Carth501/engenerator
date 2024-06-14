@@ -28,7 +28,7 @@ function ShopGen() {
 
     function writeShop() {
         const shop = {};
-        if (nums[0] > 0.4) {
+        if (nums[0] > 0.4 && false) {
             shop["name"] = getGenericName();
         }
         else {
@@ -45,16 +45,33 @@ function ShopGen() {
 
     function getSpecificName() {
         let value = nums[0] % 0.5 * 2;
-        if (value > 0.5) {
-            return getNamedAfterPerson()
-        }
+        return getNamedAfterPerson()
+        // if (value > 0.5) {
+        // }
     }
 
     function getNamedAfterPerson() {
         let value = nums[0] % 0.25 * 4;
-        const person = PersonNames[Math.floor(value * PersonNames.length)]
-        let def = ShopNames.specific_names.named_after_person.name;
-        return def;
+        const def = ShopNames.specific_names.named_after_person;
+        let name = ""
+        console.log(def)
+        for (let i = 0; i < def.name.length; i++) {
+            if (def.name.length > i) {
+                name = name.concat(def.name[i])
+            }
+            if (def.inputs.length > i) {
+                name = name.concat(getRandomOfStringType(def.inputs[i]))
+            }
+        }
+        return name;
+    }
+
+    function getRandomOfStringType(catagory) {
+        const value = nums[0] % 0.2 * 5;
+        if (catagory === "person") {
+            const index = Math.floor(PersonNames.generic_english.length * value)
+            return PersonNames.generic_english[index]
+        }
     }
 
     return (

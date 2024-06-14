@@ -5,13 +5,18 @@
     ],
     "specific_names": {
         "named_after_person": {
-            "name": "${person}'s Shop",
+            "name": [
+                " ",
+                "'s Shop"
+            ],
             "inputs": [
                 "person"
             ]
         },
         "named_after_item": {
-            "name": "Lots of {0}",
+            "name": [
+                "Lots of "
+            ],
             "inputs": [
                 "plural_item"
             ]
