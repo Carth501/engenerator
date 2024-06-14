@@ -1,0 +1,20 @@
+{
+    "generic_names": [
+        "General Store",
+        "All-purpose Store"
+    ],
+    "specific_names": {
+        "named_after_person": {
+            "name": "${person}'s Shop",
+            "inputs": [
+                "person"
+            ]
+        },
+        "named_after_item": {
+            "name": "Lots of {0}",
+            "inputs": [
+                "plural_item"
+            ]
+        }
+    }
+}
