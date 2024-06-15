@@ -1,9 +1,208 @@
 {
-    "plural_items": [
-        "rope",
-        "barrels",
-        "fish",
-        "grain",
-        "planks"
-    ]
+    "Livestock": {
+        "Singular": [
+            "Cow",
+            "Chicken",
+            "Horse",
+            "Donkey",
+            "Goat"
+        ],
+        "Plural": [
+            "Cows",
+            "Chickens",
+            "Horses",
+            "Donkeys",
+            "Goats"
+        ]
+    },
+    "Lengths": {
+        "Singular": [
+            "Rope",
+            "Chain",
+            "Wire"
+        ],
+        "Plural": [
+            "Ropes",
+            "Chains",
+            "Wires"
+        ]
+    },
+    "Foodstuffs": {
+        "Singular": [
+            "Bag of Rice",
+            "Sack of Flour",
+            "Sack of Grains",
+            "Sack of Rice"
+        ],
+        "Plural": [
+            "Bags of Rice",
+            "Sacks of Flour",
+            "Sacks of Grains",
+            "Sacks of Rice"
+        ]
+    },
+    "Containers": {
+        "Singular": [
+            "Barrel",
+            "Crate",
+            "Box",
+            "Basket",
+            "Pot",
+            "Jar"
+        ],
+        "Plural": [
+            "Barrels",
+            "Crates",
+            "Boxes",
+            "Baskets",
+            "Pots",
+            "Jars"
+        ]
+    },
+    "Construction Materials": {
+        "Singular": [
+            "Plank of Wood",
+            "Nail",
+            "Brick"
+        ],
+        "Plural": [
+            "Planks of Wood",
+            "Nails",
+            "Bricks"
+        ]
+    },
+    "Construction Tools": {
+        "Singular": [
+            "Hammer",
+            "Hand Drill"
+        ],
+        "Plural": [
+            "Hammers",
+            "Hand Drills"
+        ]
+    },
+    "Travel Food": {
+        "Singular": [
+            "Hardtack",
+            "Sausage",
+            "Nuts & Berries",
+            "Salted Pork Cut"
+        ],
+        "Plural": [
+            "Hardtack",
+            "Sausage",
+            "Nuts & Berries",
+            "Salted Pork Cuts"
+        ]
+    },
+    "Survival Tools": {
+        "Singular": [
+            "Tinder & Firestarter",
+            "Fishing Rod",
+            "Fishing Bait"
+        ],
+        "Plural": [
+            "Tinder & Firestarters",
+            "Fishing Rods",
+            "Fishing Baits"
+        ]
+    },
+    "Winter Seasonals": {
+        "Singular": [
+            "Blanket",
+            "Scarf"
+        ],
+        "Plural": [
+            "Blankets",
+            "Scarves"
+        ]
+    },
+    "Crafting Materials": {
+        "Singular": [
+            "Bolt of Cloth",
+            "String",
+            "Pot of Dye"
+        ],
+        "Plural": [
+            "Bolts of Cloth",
+            "Strings",
+            "Pots of Dye"
+        ]
+    },
+    "Hunting Supplies": {
+        "Singular": [
+            "Bear Trap",
+            "Wolf Trap",
+            "Rabbit Trap Kit"
+        ],
+        "Plural": [
+            "Bear Traps",
+            "Wolf Traps",
+            "Rabbit Trap Kits"
+        ]
+    },
+    "Lighting": {
+        "Singular": [
+            "Lamp",
+            "Candle",
+            "Torch"
+        ],
+        "Plural": [
+            "Lamps",
+            "Candles",
+            "Torches"
+        ]
+    },
+    "Cooking": {
+        "Singular": [
+            "Cookware",
+            "Box of Common Spices",
+            "Jug of Cooking Oil",
+            "Barrel of Salt"
+        ],
+        "Plural": [
+            "Cookware",
+            "Boxes of Common Spices",
+            "Jugs of Cooking Oil",
+            "Barrels of Salt"
+        ]
+    },
+    "Cleaning Supplies": {
+        "Singular": [
+            "Bar of Soap"
+        ],
+        "Plural": [
+            "Bars of Soap"
+        ]
+    },
+    "Mechanical Parts": {
+        "Singular": [
+            "Pot of Grease",
+            "Small Mechanical Part",
+            "Raw Metal Ingot"
+        ],
+        "Plural": [
+            "Pots of Grease",
+            "Small Mechanical Parts",
+            "Raw Metal Ingots"
+        ]
+    },
+    "Clothing": {
+        "Singular": [
+            "Tunic",
+            "Pair of Trousers",
+            "Pair of Socks",
+            "Undershirt",
+            "Underclothes",
+            "Vest"
+        ],
+        "Plural": [
+            "Tunics",
+            "Pairs of Trousers",
+            "Pairs of Socks",
+            "Undershirts",
+            "Underclothes",
+            "Vests"
+        ]
+    }
 }

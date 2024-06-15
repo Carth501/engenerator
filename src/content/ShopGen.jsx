@@ -32,8 +32,20 @@ function ShopGen() {
         let text = "";
         text += "Name: " + shop.name + "\n";
         text += "Owner: " + shop.owner + "\n";
-        text += "Number of Active Years: " + shop.age
-        console.log(text);
+        text += "Number of Active Years: " + shop.age + "\n";
+        text += "Stock:\t";
+        const items = Object.keys(shop.stock);
+        const itemCount = items.length;
+        for (var i = 0; i < itemCount; i++) {
+            let line = "";
+            if (i > 0) {
+                line += "\t\t";
+            }
+            const number = shop.stock[items[i]];
+            line += number + "\t";
+            line += items[i] + "\n";
+            text += line;
+        }
         return text;
     }
 
@@ -47,6 +59,7 @@ function ShopGen() {
             getSpecificName(shop);
         }
         shop["age"] = ageTransform(nums[0], 10, 30)
+        getStock(shop);
         return shop;
     }
 
@@ -103,17 +116,42 @@ function ShopGen() {
     function getRandomOfStringType(catagory) {
         let value = nums[0] % 0.25 * 4;
         if (catagory === "person") {
-            const index = Math.floor(PersonNames.generic_english.length * value);
+            const randomValue = PersonNames.generic_english.length * value;
+            const index = Math.floor(randomValue);
             return PersonNames.generic_english[index];
         }
         else if (catagory === "plural_item") {
-            const index = Math.floor(Items.plural_items.length * value);
-            return capitalize(Items.plural_items[index]);
+            const randomValue = Object.keys(Items).length * value;
+            const subcatagoryIndex = Math.floor(randomValue);
+            const key = Object.keys(Items)[subcatagoryIndex];
+            const subcatagory = Items[key];
+            const list = subcatagory.Plural;
+            let itemIndex = Math.floor((nums[0] % 0.125 * 8) * list.length);
+            return subcatagory.Plural[itemIndex];
         }
     }
 
-    function capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+    function getStock(shop) {
+        let value = nums[1];
+        const itemCount = Math.round(5 + value * 20);
+        shop["stock"] = {}
+        for (var i = 0; i < itemCount; i++) {
+            const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
+            const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
+            const list = randItemCategory(rand1).Singular;
+            const item = list[Math.floor(rand2 * list.length)];
+            if (shop["stock"][item] === undefined) {
+                shop["stock"][item] = 0;
+            }
+            shop["stock"][item] += 1;
+        }
+    }
+
+    function randItemCategory(randomValue) {
+        const value = Object.keys(Items).length * randomValue;
+        const subcatagoryIndex = Math.floor(value);
+        const key = Object.keys(Items)[subcatagoryIndex];
+        return Items[key];
     }
 
     return (
