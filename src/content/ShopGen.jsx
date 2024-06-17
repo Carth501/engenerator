@@ -6,7 +6,7 @@ import './ShopGen.css';
 import ShopNames from './ShopNames.json'
 import PersonNames from './PersonNames.json'
 import Items from './Items.json'
-import ageTransform from './Tools.js'
+import { ageTransform, gaussianRandom } from './Tools.js'
 
 let rand = new Rand('1234');
 
@@ -35,15 +35,16 @@ function ShopGen() {
         text += "Number of Active Years: " + shop.age + "\n";
         text += "Stock:\t";
         const items = Object.keys(shop.stock);
+        console.log(items);
         const itemCount = items.length;
         for (var i = 0; i < itemCount; i++) {
             let line = "";
             if (i > 0) {
                 line += "\t\t";
             }
-            const number = shop.stock[items[i]];
+            const number = shop.stock[items[i]].stock;
             line += number + "\t";
-            line += items[i] + "\n";
+            line += shop.stock[items[i]].singular + "\n";
             text += line;
         }
         return text;
@@ -51,7 +52,7 @@ function ShopGen() {
 
     function generateShop() {
         const shop = {};
-        shop["owner"] = getRandomOfStringType("person")
+        shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8))
         if (nums[0] > 0.4) {
             getGenericName(shop);
         }
@@ -113,7 +114,7 @@ function ShopGen() {
         shop["name"] = name;
     }
 
-    function getRandomOfStringType(catagory) {
+    function getRandomOfStringType(catagory, random = 0) {
         let value = nums[0] % 0.25 * 4;
         if (catagory === "person") {
             const randomValue = PersonNames.generic_english.length * value;
@@ -122,12 +123,12 @@ function ShopGen() {
         }
         else if (catagory === "plural_item") {
             const randomValue = Object.keys(Items).length * value;
+            console.log(value);
             const subcatagoryIndex = Math.floor(randomValue);
             const key = Object.keys(Items)[subcatagoryIndex];
-            const subcatagory = Items[key];
-            const list = subcatagory.Plural;
-            let itemIndex = Math.floor((nums[0] % 0.125 * 8) * list.length);
-            return subcatagory.Plural[itemIndex];
+            const list = Items[key];
+            let itemIndex = Math.floor(random * list.length);
+            return list[itemIndex].plural;
         }
     }
 
@@ -138,12 +139,22 @@ function ShopGen() {
         for (var i = 0; i < itemCount; i++) {
             const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
             const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
-            const list = randItemCategory(rand1).Singular;
-            const item = list[Math.floor(rand2 * list.length)];
-            if (shop["stock"][item] === undefined) {
-                shop["stock"][item] = 0;
+            const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
+            const list = randItemCategory(rand1);
+            const index = Math.floor(rand2 * Object.keys(list).length);
+            const itemKey = Object.keys(list)[index];
+            const item = list[itemKey];
+            if (shop["stock"][itemKey] === undefined) {
+                shop["stock"][itemKey] = item;
+                const randomStockDelta = item.variance * gaussianRandom(rand3);
+                const newStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
+                shop["stock"][itemKey].stock = newStock;
             }
-            shop["stock"][item] += 1;
+            else {
+                const randomStockDelta = item.variance * gaussianRandom(rand3);
+                const additionalStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
+                shop["stock"][itemKey].stock += additionalStock
+            }
         }
     }
 

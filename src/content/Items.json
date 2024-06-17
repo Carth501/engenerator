@@ -1,208 +1,538 @@
 {
-    "Livestock": {
-        "Singular": [
-            "Cow",
-            "Chicken",
-            "Horse",
-            "Donkey",
-            "Goat"
-        ],
-        "Plural": [
-            "Cows",
-            "Chickens",
-            "Horses",
-            "Donkeys",
-            "Goats"
-        ]
+    "livestock": {
+        "cow": {
+            "singular": "Cow",
+            "plural": "Cows",
+            "stock": 2,
+            "variance": 1,
+            "price": 6,
+            "rarity": 1
+        },
+        "chicken": {
+            "singular": "Chicken",
+            "plural": "Chickens",
+            "stock": 4,
+            "variance": 4,
+            "price": 0.5,
+            "rarity": 1
+        },
+        "riding-horse": {
+            "singular": "Riding Horse",
+            "plural": "Riding Horses",
+            "stock": 1,
+            "variance": 1,
+            "price": 8,
+            "rarity": 1
+        },
+        "warhorse": {
+            "singular": "Warhorse",
+            "plural": "Warhorses",
+            "stock": 1,
+            "variance": 1,
+            "price": 8,
+            "rarity": 4
+        },
+        "donkey": {
+            "singular": "Donkey",
+            "plural": "Donkeys",
+            "stock": 1,
+            "variance": 1,
+            "price": 2,
+            "rarity": 1
+        },
+        "goat": {
+            "singular": "Goat",
+            "plural": "Goats",
+            "stock": 3,
+            "variance": 1,
+            "price": 2,
+            "rarity": 1
+        }
     },
-    "Lengths": {
-        "Singular": [
-            "Rope",
-            "Chain",
-            "Wire"
-        ],
-        "Plural": [
-            "Ropes",
-            "Chains",
-            "Wires"
-        ]
+    "lengths": {
+        "rope": {
+            "singular": "Rope",
+            "plural": "Ropes",
+            "stock": 20,
+            "variance": 8,
+            "price": 0.5,
+            "rarity": 1
+        },
+        "chain": {
+            "singular": "Chain",
+            "plural": "Chains",
+            "stock": 10,
+            "variance": 2,
+            "price": 4,
+            "rarity": 2
+        },
+        "wire": {
+            "singular": "Wire",
+            "plural": "Wires",
+            "stock": 5,
+            "variance": 4,
+            "price": 4,
+            "rarity": 3
+        }
     },
-    "Foodstuffs": {
-        "Singular": [
-            "Bag of Rice",
-            "Sack of Flour",
-            "Sack of Grains",
-            "Sack of Rice"
-        ],
-        "Plural": [
-            "Bags of Rice",
-            "Sacks of Flour",
-            "Sacks of Grains",
-            "Sacks of Rice"
-        ]
+    "foodstuffs": {
+        "bag of rice": {
+            "singular": "Bag of Rice",
+            "plural": "Bags of Rice",
+            "stock": 7,
+            "variance": 2,
+            "price": 0.07,
+            "rarity": 1
+        },
+        "bag of flour": {
+            "singular": "Bag of Flour",
+            "plural": "Bags of Flour",
+            "stock": 8,
+            "variance": 4,
+            "price": 0.08,
+            "rarity": 1
+        },
+        "bag of grain": {
+            "singular": "Bag of Grain",
+            "plural": "Bags of Grain",
+            "stock": 8,
+            "variance": 4,
+            "price": 0.1,
+            "rarity": 1
+        },
+        "sack of rice": {
+            "singular": "Sack of Rice",
+            "plural": "Sacks of Rice",
+            "stock": 7,
+            "variance": 2,
+            "price": 1,
+            "rarity": 1
+        },
+        "sack of flour": {
+            "singular": "Sack of Flour",
+            "plural": "Sacks of Flour",
+            "stock": 8,
+            "variance": 4,
+            "price": 0.7,
+            "rarity": 1
+        },
+        "sack of grain": {
+            "singular": "Sack of Grain",
+            "plural": "Sacks of Grain",
+            "stock": 5,
+            "variance": 1,
+            "price": 1.2,
+            "rarity": 1
+        }
     },
-    "Containers": {
-        "Singular": [
-            "Barrel",
-            "Crate",
-            "Box",
-            "Basket",
-            "Pot",
-            "Jar"
-        ],
-        "Plural": [
-            "Barrels",
-            "Crates",
-            "Boxes",
-            "Baskets",
-            "Pots",
-            "Jars"
-        ]
+    "containers": {
+        "barrel": {
+            "singular": "Barrel",
+            "plural": "Barrels",
+            "stock": 3,
+            "variance": 2,
+            "price": 0.5,
+            "rarity": 2
+        },
+        "crate": {
+            "singular": "Crate",
+            "plural": "Crates",
+            "stock": 2,
+            "variance": 1,
+            "price": 0.8,
+            "rarity": 2
+        },
+        "box": {
+            "singular": "Box",
+            "plural": "Boxes",
+            "stock": 5,
+            "variance": 3,
+            "price": 0.2,
+            "rarity": 1
+        },
+        "basket": {
+            "singular": "Basket",
+            "plural": "Baskets",
+            "stock": 3,
+            "variance": 6,
+            "price": 0.13,
+            "rarity": 1
+        },
+        "pot": {
+            "singular": "Pot",
+            "plural": "Pots",
+            "stock": 4,
+            "variance": 3,
+            "price": 0.09,
+            "rarity": 1
+        },
+        "jar": {
+            "singular": "Jar",
+            "plural": "Jars",
+            "stock": 8,
+            "variance": 7,
+            "price": 0.06,
+            "rarity": 1
+        }
     },
-    "Construction Materials": {
-        "Singular": [
-            "Plank of Wood",
-            "Nail",
-            "Brick"
-        ],
-        "Plural": [
-            "Planks of Wood",
-            "Nails",
-            "Bricks"
-        ]
+    "construction materials": {
+        "plank": {
+            "singular": "Plank of Wood",
+            "plural": "Planks of Wood",
+            "stock": 16,
+            "variance": 4,
+            "price": 0.02,
+            "rarity": 1
+        },
+        "nail": {
+            "singular": "Nail",
+            "plural": "Nails",
+            "stock": 16,
+            "variance": 4,
+            "price": 0.02,
+            "rarity": 1
+        },
+        "brick": {
+            "singular": "Brick",
+            "plural": "Bricks",
+            "stock": 40,
+            "variance": 20,
+            "price": 0.02,
+            "rarity": 2
+        }
     },
-    "Construction Tools": {
-        "Singular": [
-            "Hammer",
-            "Hand Drill"
-        ],
-        "Plural": [
-            "Hammers",
-            "Hand Drills"
-        ]
+    "construction tools": {
+        "hammer": {
+            "singular": "Hammer",
+            "plural": "Hammers",
+            "stock": 2,
+            "variance": 4,
+            "price": 0.12,
+            "rarity": 1
+        },
+        "hand drill": {
+            "singular": "Hand Drill",
+            "plural": "Hand Drills",
+            "stock": 2,
+            "variance": 4,
+            "price": 0.16,
+            "rarity": 1
+        }
     },
-    "Travel Food": {
-        "Singular": [
-            "Hardtack",
-            "Sausage",
-            "Nuts & Berries",
-            "Salted Pork Cut"
-        ],
-        "Plural": [
-            "Hardtack",
-            "Sausage",
-            "Nuts & Berries",
-            "Salted Pork Cuts"
-        ]
+    "travel food": {
+        "hardtack": {
+            "singular": "Hardtack",
+            "plural": "Hardtacks",
+            "stock": 50,
+            "variance": 10,
+            "price": 0.4,
+            "rarity": 1
+        },
+        "sausage": {
+            "singular": "Sausage",
+            "plural": "Sausages",
+            "stock": 20,
+            "variance": 10,
+            "price": 0.3,
+            "rarity": 1
+        },
+        "nuts and berries": {
+            "singular": "Basket of Nuts & Berries",
+            "plural": "Baskets of Nuts & Berries",
+            "stock": 10,
+            "variance": 3,
+            "price": 0.2,
+            "rarity": 1
+        },
+        "salted pork": {
+            "singular": "Salted Pork",
+            "plural": "Salted Pork Cuts",
+            "stock": 3,
+            "variance": 5,
+            "price": 1.3,
+            "rarity": 4
+        }
     },
-    "Survival Tools": {
-        "Singular": [
-            "Tinder & Firestarter",
-            "Fishing Rod",
-            "Fishing Bait"
-        ],
-        "Plural": [
-            "Tinder & Firestarters",
-            "Fishing Rods",
-            "Fishing Baits"
-        ]
+    "survival tools": {
+        "firestarter": {
+            "singular": "Tinder & Firestarter",
+            "plural": "Tinder & Firestarters",
+            "stock": 10,
+            "variance": 2,
+            "price": 0.05,
+            "rarity": 1
+        },
+        "fishing tackle": {
+            "singular": "Fishing Tackle",
+            "plural": "Fishing Tackle Kits",
+            "stock": 1,
+            "variance": 2,
+            "price": 0.8,
+            "rarity": 1
+        },
+        "pro fishing tackle": {
+            "singular": "Professional Fishing Tackle",
+            "plural": "Professional Fishing Tackle Kits",
+            "stock": 1,
+            "variance": 2,
+            "price": 0.8,
+            "rarity": 5
+        },
+        "fishing bait": {
+            "singular": "Fish Bait",
+            "plural": "Fish Bait Pouches",
+            "stock": 30,
+            "variance": 16,
+            "price": 0.06,
+            "rarity": 1
+        }
     },
-    "Winter Seasonals": {
-        "Singular": [
-            "Blanket",
-            "Scarf"
-        ],
-        "Plural": [
-            "Blankets",
-            "Scarves"
-        ]
+    "winter seasonals": {
+        "blanket": {
+            "singular": "Blanket",
+            "plural": "Blankets",
+            "stock": 10,
+            "variance": 5,
+            "price": 0.4,
+            "rarity": 1
+        },
+        "scarf": {
+            "singular": "Scarf",
+            "plural": "Scarfs",
+            "stock": 7,
+            "variance": 4,
+            "price": 0.12,
+            "rarity": 1
+        }
     },
-    "Crafting Materials": {
-        "Singular": [
-            "Bolt of Cloth",
-            "String",
-            "Pot of Dye"
-        ],
-        "Plural": [
-            "Bolts of Cloth",
-            "Strings",
-            "Pots of Dye"
-        ]
+    "crafting materials": {
+        "bolt of cloth": {
+            "singular": "Bolt of Cloth",
+            "plural": "Bolts of Cloth",
+            "stock": 4,
+            "variance": 10,
+            "price": 0.1,
+            "rarity": 1
+        },
+        "ball of string": {
+            "singular": "Ball of String",
+            "plural": "Balls of String",
+            "stock": 4,
+            "variance": 10,
+            "price": 0.02,
+            "rarity": 1
+        },
+        "ball of yarn": {
+            "singular": "Ball of Yarn",
+            "plural": "Balls of Yarn",
+            "stock": 4,
+            "variance": 10,
+            "price": 0.03,
+            "rarity": 1
+        },
+        "pots of dye": {
+            "singular": "Pot of Dye",
+            "plural": "Pots of Dye",
+            "stock": 4,
+            "variance": 10,
+            "price": 0.03,
+            "rarity": 1
+        }
     },
-    "Hunting Supplies": {
-        "Singular": [
-            "Bear Trap",
-            "Wolf Trap",
-            "Rabbit Trap Kit"
-        ],
-        "Plural": [
-            "Bear Traps",
-            "Wolf Traps",
-            "Rabbit Trap Kits"
-        ]
+    "hunting supplies": {
+        "bear trap": {
+            "singular": "Bear Trap",
+            "plural": "Bear Traps",
+            "stock": 1,
+            "variance": 1,
+            "price": 8,
+            "rarity": 1
+        },
+        "wolf trap": {
+            "singular": "Wolf Trap",
+            "plural": "Wolf Traps",
+            "stock": 1,
+            "variance": 1,
+            "price": 6,
+            "rarity": 1
+        },
+        "rabbit trap kit": {
+            "singular": "Rabbit Trap Kit",
+            "plural": "Rabbit Trap Kits",
+            "stock": 4,
+            "variance": 2,
+            "price": 1.4,
+            "rarity": 1
+        }
     },
     "Lighting": {
-        "Singular": [
-            "Lamp",
-            "Candle",
-            "Torch"
-        ],
-        "Plural": [
-            "Lamps",
-            "Candles",
-            "Torches"
-        ]
+        "lamp": {
+            "singular": "Lamp",
+            "plural": "Lamps",
+            "stock": 1,
+            "variance": 1,
+            "price": 0.1,
+            "rarity": 1
+        },
+        "candle": {
+            "singular": "Candle",
+            "plural": "Candles",
+            "stock": 20,
+            "variance": 6,
+            "price": 0.07,
+            "rarity": 1
+        },
+        "torch": {
+            "singular": "Torch",
+            "plural": "Torches",
+            "stock": 10,
+            "variance": 4,
+            "price": 0.01,
+            "rarity": 1
+        }
     },
-    "Cooking": {
-        "Singular": [
-            "Cookware",
-            "Box of Common Spices",
-            "Jug of Cooking Oil",
-            "Barrel of Salt"
-        ],
-        "Plural": [
-            "Cookware",
-            "Boxes of Common Spices",
-            "Jugs of Cooking Oil",
-            "Barrels of Salt"
-        ]
+    "cooking": {
+        "cookware": {
+            "singular": "Cookware",
+            "plural": "Cookware Sets",
+            "stock": 2,
+            "variance": 1,
+            "price": 1.02,
+            "rarity": 1
+        },
+        "box of common spices": {
+            "singular": "Box of Common Spices",
+            "plural": "Boxes of Common Spices",
+            "stock": 4,
+            "variance": 1,
+            "price": 0.4,
+            "rarity": 2
+        },
+        "jug of cooking oil": {
+            "singular": "Jug of Cooking Oil",
+            "plural": "Jugs of Cooking Oil",
+            "stock": 4,
+            "variance": 1,
+            "price": 0.4,
+            "rarity": 1
+        },
+        "barrel of salt": {
+            "singular": "Barrel of Salt",
+            "plural": "Barrels of Salt",
+            "stock": 2,
+            "variance": 1,
+            "price": 20,
+            "rarity": 2
+        }
     },
-    "Cleaning Supplies": {
-        "Singular": [
-            "Bar of Soap"
-        ],
-        "Plural": [
-            "Bars of Soap"
-        ]
+    "cleaning supplies": {
+        "bar of soap": {
+            "singular": "Bar of Soap",
+            "plural": "Bars of Soap",
+            "stock": 4,
+            "variance": 1,
+            "price": 0.8,
+            "rarity": 1
+        },
+        "washcloth": {
+            "singular": "Washcloth",
+            "plural": "Washclothes",
+            "stock": 8,
+            "variance": 3,
+            "price": 0.01,
+            "rarity": 1
+        }
     },
-    "Mechanical Parts": {
-        "Singular": [
-            "Pot of Grease",
-            "Small Mechanical Part",
-            "Raw Metal Ingot"
-        ],
-        "Plural": [
-            "Pots of Grease",
-            "Small Mechanical Parts",
-            "Raw Metal Ingots"
-        ]
+    "mechanical parts": {
+        "pot of grease": {
+            "singular": "Pot of Grease",
+            "plural": "Pots of Grease",
+            "stock": 3,
+            "variance": 2,
+            "price": 0.07,
+            "rarity": 1
+        },
+        "small mech parts": {
+            "singular": "Small Mechanical Part",
+            "plural": "Small Mechanical Parts",
+            "stock": 60,
+            "variance": 20,
+            "price": 0.3,
+            "rarity": 2
+        },
+        "raw iron ingot": {
+            "singular": "Raw Iron Ingot",
+            "plural": "Raw Iron Ingots",
+            "stock": 20,
+            "variance": 20,
+            "price": 1,
+            "rarity": 1
+        },
+        "raw lead ingot": {
+            "singular": "Raw Lead Ingot",
+            "plural": "Raw Lead Ingots",
+            "stock": 16,
+            "variance": 24,
+            "price": 0.6,
+            "rarity": 1
+        },
+        "raw brass ingot": {
+            "singular": "Raw Brass Ingot",
+            "plural": "Raw Brass Ingots",
+            "stock": 23,
+            "variance": 10,
+            "price": 0.8,
+            "rarity": 1
+        }
     },
-    "Clothing": {
-        "Singular": [
-            "Tunic",
-            "Pair of Trousers",
-            "Pair of Socks",
-            "Undershirt",
-            "Underclothes",
-            "Vest"
-        ],
-        "Plural": [
-            "Tunics",
-            "Pairs of Trousers",
-            "Pairs of Socks",
-            "Undershirts",
-            "Underclothes",
-            "Vests"
-        ]
+    "clothing": {
+        "tunic": {
+            "singular": "Tunic",
+            "plural": "Tunics",
+            "stock": 4,
+            "variance": 1,
+            "price": 0.2,
+            "rarity": 1
+        },
+        "pair of trousers": {
+            "singular": "Pair of Trousers",
+            "plural": "Pairs of Trousers",
+            "stock": 3,
+            "variance": 2,
+            "price": 0.2,
+            "rarity": 1
+        },
+        "pair of socks": {
+            "singular": "Pair of Socks",
+            "plural": "Pairs of Socks",
+            "stock": 3,
+            "variance": 2,
+            "price": 0.04,
+            "rarity": 1
+        },
+        "shirt": {
+            "singular": "Shirt",
+            "plural": "Shirts",
+            "stock": 2,
+            "variance": 5,
+            "price": 0.07,
+            "rarity": 1
+        },
+        "underclothes": {
+            "singular": "Set of Underclothes",
+            "plural": "Sets of Underclothes",
+            "stock": 2,
+            "variance": 5,
+            "price": 0.05,
+            "rarity": 1
+        },
+        "vest": {
+            "singular": "Vest",
+            "plural": "Vests",
+            "stock": 1,
+            "variance": 4,
+            "price": 0.1,
+            "rarity": 1
+        }
     }
 }
