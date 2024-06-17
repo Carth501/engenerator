@@ -143,7 +143,7 @@ function ShopGen() {
 
     function getStock(shop) {
         let value = nums[1];
-        const itemCount = Math.round(15 + value * 20);
+        const itemCount = Math.round(15 + value * 30);
         shop["stock"] = {};
         for (var i = 0; i < itemCount; i++) {
             const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
@@ -151,8 +151,9 @@ function ShopGen() {
             const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
             const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
             const list = randItemCategory(rand1);
-            const index = Math.floor(rand2 * Object.keys(list).length);
-            const itemKey = Object.keys(list)[index];
+            console.log(list);
+            const itemKey = randItemKeyFrom(list, rand2);
+            console.log(itemKey);
             const item = cloneDeep(list[itemKey]);
             if (shop["stock"][itemKey] === undefined) {
                 shop["stock"][itemKey] = item;
@@ -175,6 +176,23 @@ function ShopGen() {
         const subcatagoryIndex = Math.floor(value);
         const key = Object.keys(Items)[subcatagoryIndex];
         return Items[key];
+    }
+
+    function randItemKeyFrom(list, random) {
+        let totalCommonness = 0;
+        for (let i = 0; i < Object.keys(list).length; i++) {
+            totalCommonness += 1 / list[Object.keys(list)[i]].rarity
+        }
+        console.log("Total Commonness " + totalCommonness);
+        let roll = random * totalCommonness;
+        for (let i = 0; i < Object.keys(list).length; i++) {
+            console.log("Roll " + roll);
+            roll -= 1 / list[Object.keys(list)[i]].rarity;
+            if (roll <= 0) {
+                console.log("Result i " + i + " ||| Result item key " + Object.keys(list)[i]);
+                return Object.keys(list)[i];
+            }
+        }
     }
 
     return (
