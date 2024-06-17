@@ -43,8 +43,17 @@ function ShopGen() {
                 line += "\t\t";
             }
             const number = shop.stock[items[i]].stock;
-            line += number + "\t";
-            line += shop.stock[items[i]].singular + "\n";
+            line += number + " ";
+            if (number === 1) {
+                line += shop.stock[items[i]].singular;
+            }
+            else {
+                line += shop.stock[items[i]].plural;
+            }
+            const price = shop.stock[items[i]].price * shop.stock[items[i]].priceAdjustment;
+            line += " @ " + price.toFixed(3);
+            line += " (" + ((shop.stock[items[i]].priceAdjustment - 1) * 100).toFixed(1) + "%)";
+            line += "\n";
             text += line;
         }
         return text;
@@ -134,13 +143,13 @@ function ShopGen() {
 
     function getStock(shop) {
         let value = nums[1];
-        const itemCount = Math.round(5 + value * 20);
+        const itemCount = Math.round(15 + value * 20);
         shop["stock"] = {};
-        console.log(shop["stock"]);
         for (var i = 0; i < itemCount; i++) {
             const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
             const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
             const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
+            const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
             const list = randItemCategory(rand1);
             const index = Math.floor(rand2 * Object.keys(list).length);
             const itemKey = Object.keys(list)[index];
@@ -150,11 +159,13 @@ function ShopGen() {
                 const randomStockDelta = item.variance * gaussianRandom(rand3);
                 const newStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
                 shop["stock"][itemKey].stock = newStock;
+                const priceAdjustment = Math.max(0.15 * gaussianRandom(rand4) + 1, 0.1);
+                shop["stock"][itemKey].priceAdjustment = priceAdjustment;
             }
             else {
                 const randomStockDelta = item.variance * gaussianRandom(rand3);
                 const additionalStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
-                shop["stock"][itemKey].stock += additionalStock
+                shop["stock"][itemKey].stock += additionalStock;
             }
         }
     }
