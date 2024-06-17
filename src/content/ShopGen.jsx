@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import Rand from 'rand-seed';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
+import cloneDeep from 'lodash.clonedeep';
+import Rand from 'rand-seed';
+import { useState } from 'react';
+import Items from './Items.json';
+import PersonNames from './PersonNames.json';
 import './ShopGen.css';
-import ShopNames from './ShopNames.json'
-import PersonNames from './PersonNames.json'
-import Items from './Items.json'
-import { ageTransform, gaussianRandom } from './Tools.js'
+import ShopNames from './ShopNames.json';
+import { ageTransform, gaussianRandom } from './Tools.js';
 
 let rand = new Rand('1234');
 
@@ -35,7 +36,6 @@ function ShopGen() {
         text += "Number of Active Years: " + shop.age + "\n";
         text += "Stock:\t";
         const items = Object.keys(shop.stock);
-        console.log(items);
         const itemCount = items.length;
         for (var i = 0; i < itemCount; i++) {
             let line = "";
@@ -135,7 +135,8 @@ function ShopGen() {
     function getStock(shop) {
         let value = nums[1];
         const itemCount = Math.round(5 + value * 20);
-        shop["stock"] = {}
+        shop["stock"] = {};
+        console.log(shop["stock"]);
         for (var i = 0; i < itemCount; i++) {
             const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
             const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
@@ -143,7 +144,7 @@ function ShopGen() {
             const list = randItemCategory(rand1);
             const index = Math.floor(rand2 * Object.keys(list).length);
             const itemKey = Object.keys(list)[index];
-            const item = list[itemKey];
+            const item = cloneDeep(list[itemKey]);
             if (shop["stock"][itemKey] === undefined) {
                 shop["stock"][itemKey] = item;
                 const randomStockDelta = item.variance * gaussianRandom(rand3);
