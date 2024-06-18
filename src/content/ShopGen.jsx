@@ -14,19 +14,34 @@ let rand = new Rand('1234');
 function ShopGen() {
     const [nums, setNums] = useState([]);
     const [results, setResults] = useState("");
+    const [seeded, setSeeded] = useState(false);
 
     function generate() {
-        let shop = generateShop()
-        setResults(writeText(shop))
+        if (!seeded) {
+            const shopValues = [];
+            for (var i = 0; i < 4; i++) {
+                shopValues.push(Math.random());
+            }
+            setNums(shopValues);
+            console.log(shopValues);
+        }
+        let shop = generateShop();
+        setResults(writeText(shop));
     }
 
     function setSeed(new_seed) {
-        rand = new Rand(new_seed);
-        const shopValues = [];
-        for (var i = 0; i < 4; i++) {
-            shopValues.push(rand.next());
+        if (new_seed === null || new_seed.trim() === "") {
+            setSeeded(false);
         }
-        setNums(shopValues);
+        else {
+            rand = new Rand(new_seed);
+            const shopValues = [];
+            for (var j = 0; j < 4; j++) {
+                shopValues.push(rand.next());
+            }
+            setNums(shopValues);
+            setSeeded(false);
+        }
     }
 
     function writeText(shop) {

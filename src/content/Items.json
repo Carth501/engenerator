@@ -222,7 +222,7 @@
     "travel food": {
         "hardtack": {
             "singular": "Hardtack",
-            "plural": "Hardtacks",
+            "plural": "Hardtack Biscuits",
             "stock": 50,
             "variance": 10,
             "price": 0.4,
