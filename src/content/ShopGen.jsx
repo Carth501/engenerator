@@ -34,6 +34,8 @@ function ShopGen() {
         text += "Name: " + shop.name + "\n";
         text += "Owner: " + shop.owner + "\n";
         text += "Number of Active Years: " + shop.age + "\n";
+        text += "Hours: Dawn to Dusk\n";
+        text += "Employees: " + Math.round(shop.employees.count) + "\n";
         text += "Stock:\t";
         const items = Object.keys(shop.stock);
         const itemCount = items.length;
@@ -50,9 +52,11 @@ function ShopGen() {
             else {
                 line += shop.stock[items[i]].plural;
             }
-            const price = shop.stock[items[i]].price * shop.stock[items[i]].priceAdjustment;
+            const adjust = shop.stock[items[i]].priceAdjustment;
+            const price = shop.stock[items[i]].price * adjust;
             line += " @ " + price.toFixed(3);
-            line += " (" + ((shop.stock[items[i]].priceAdjustment - 1) * 100).toFixed(1) + "%)";
+            const percent = (shop.stock[items[i]].priceAdjustment - 1) * 100;
+            line += " (" + (percent).toFixed(1) + "%)";
             line += "\n";
             text += line;
         }
@@ -61,14 +65,15 @@ function ShopGen() {
 
     function generateShop() {
         const shop = {};
-        shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8))
+        shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8));
         if (nums[0] > 0.4) {
             getGenericName(shop);
         }
         else {
             getSpecificName(shop);
         }
-        shop["age"] = ageTransform(nums[0], 10, 30)
+        shop["age"] = ageTransform(nums[0], 10, 30);
+        shop["employees"] = { "count": nums[1] * 5 };
         getStock(shop);
         return shop;
     }
@@ -132,12 +137,12 @@ function ShopGen() {
         }
         else if (catagory === "plural_item") {
             const randomValue = Object.keys(Items).length * value;
-            console.log(value);
             const subcatagoryIndex = Math.floor(randomValue);
             const key = Object.keys(Items)[subcatagoryIndex];
             const list = Items[key];
-            let itemIndex = Math.floor(random * list.length);
-            return list[itemIndex].plural;
+            let itemIndex = Math.floor(random * Object.keys(list).length);
+            const itemKey = Object.keys(list)[itemIndex]
+            return list[itemKey].plural;
         }
     }
 
@@ -160,12 +165,14 @@ function ShopGen() {
                 const randomStockDelta = item.variance * gaussianRandom(rand3);
                 const newStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
                 shop["stock"][itemKey].stock = newStock;
-                const priceAdjustment = Math.max(0.15 * gaussianRandom(rand4) + 1, 0.1);
+                const priceRand = 0.15 * gaussianRandom(rand4) + 1;
+                const priceAdjustment = Math.max(priceRand, 0.1);
                 shop["stock"][itemKey].priceAdjustment = priceAdjustment;
             }
             else {
                 const randomStockDelta = item.variance * gaussianRandom(rand3);
-                const additionalStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
+                const value = item.stock + Math.ceil(randomStockDelta);
+                const additionalStock = Math.abs(value);
                 shop["stock"][itemKey].stock += additionalStock;
             }
         }
@@ -183,13 +190,10 @@ function ShopGen() {
         for (let i = 0; i < Object.keys(list).length; i++) {
             totalCommonness += 1 / list[Object.keys(list)[i]].rarity
         }
-        console.log("Total Commonness " + totalCommonness);
         let roll = random * totalCommonness;
         for (let i = 0; i < Object.keys(list).length; i++) {
-            console.log("Roll " + roll);
             roll -= 1 / list[Object.keys(list)[i]].rarity;
             if (roll <= 0) {
-                console.log("Result i " + i + " ||| Result item key " + Object.keys(list)[i]);
                 return Object.keys(list)[i];
             }
         }
