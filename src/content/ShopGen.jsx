@@ -58,7 +58,7 @@ function ShopGen() {
                 shopValues.push(rand.next());
             }
             setNums(shopValues);
-            setSeeded(false);
+            setSeeded(true);
         }
     }
 
