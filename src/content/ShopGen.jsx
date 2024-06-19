@@ -1,8 +1,10 @@
+import { Checkbox, FormGroup } from '@mui/material';
 import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Input from '@mui/material/Input';
 import cloneDeep from 'lodash.clonedeep';
 import Rand from 'rand-seed';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Items from './Items.json';
 import PersonNames from './PersonNames.json';
 import './ShopGen.css';
@@ -15,17 +17,33 @@ function ShopGen() {
     const [nums, setNums] = useState([]);
     const [results, setResults] = useState("");
     const [seeded, setSeeded] = useState(false);
+    const [options, setOptions] = useState({
+        "stockGen": true,
+        "ownerGen": true
+    });
+
+    useEffect(() => {
+        const shopValues = [];
+        for (var i = 0; i < 4; i++) {
+            shopValues.push(Math.random());
+        }
+        setNums(shopValues);
+        return;
+    }, []);
 
     function generate() {
-        if (!seeded) {
+        let shop
+        if (seeded) {
+            shop = generateShop();
+        }
+        else {
             const shopValues = [];
             for (var i = 0; i < 4; i++) {
                 shopValues.push(Math.random());
             }
             setNums(shopValues);
-            console.log(shopValues);
+            shop = generateShop();
         }
-        let shop = generateShop();
         setResults(writeText(shop));
     }
 
@@ -47,41 +65,45 @@ function ShopGen() {
     function writeText(shop) {
         let text = "";
         text += "Name: " + shop.name + "\n";
-        text += "Owner: " + shop.owner + "\n";
+        if (shop.owner) { text += "Owner: " + shop.owner + "\n"; }
         text += "Number of Active Years: " + shop.age + "\n";
         text += "Hours: Dawn to Dusk\n";
         text += "Employees: " + Math.round(shop.employees.count) + "\n";
-        text += "Stock:\t";
-        const items = Object.keys(shop.stock);
-        const itemCount = items.length;
-        for (var i = 0; i < itemCount; i++) {
-            let line = "";
-            if (i > 0) {
-                line += "\t\t";
+        if (shop.stock) {
+            text += "Stock:\t";
+            const items = Object.keys(shop.stock);
+            const itemCount = items.length;
+            for (var i = 0; i < itemCount; i++) {
+                let line = "";
+                if (i > 0) {
+                    line += "\t\t";
+                }
+                const number = shop.stock[items[i]].stock;
+                line += number + " ";
+                if (number === 1) {
+                    line += shop.stock[items[i]].singular;
+                }
+                else {
+                    line += shop.stock[items[i]].plural;
+                }
+                const adjust = shop.stock[items[i]].priceAdjustment;
+                const price = shop.stock[items[i]].price * adjust;
+                line += " @ " + price.toFixed(3);
+                const percent = (shop.stock[items[i]].priceAdjustment - 1) * 100;
+                line += " (" + (percent).toFixed(1) + "%)";
+                line += "\n";
+                text += line;
             }
-            const number = shop.stock[items[i]].stock;
-            line += number + " ";
-            if (number === 1) {
-                line += shop.stock[items[i]].singular;
-            }
-            else {
-                line += shop.stock[items[i]].plural;
-            }
-            const adjust = shop.stock[items[i]].priceAdjustment;
-            const price = shop.stock[items[i]].price * adjust;
-            line += " @ " + price.toFixed(3);
-            const percent = (shop.stock[items[i]].priceAdjustment - 1) * 100;
-            line += " (" + (percent).toFixed(1) + "%)";
-            line += "\n";
-            text += line;
         }
         return text;
     }
 
     function generateShop() {
         const shop = {};
-        shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8));
-        if (nums[0] > 0.4) {
+        if (options.ownerGen) {
+            shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8));
+        }
+        if (nums[0] > 0.4 || (!shop.owner && nums[0] > 0.1)) {
             getGenericName(shop);
         }
         else {
@@ -89,7 +111,9 @@ function ShopGen() {
         }
         shop["age"] = ageTransform(nums[0], 10, 30);
         shop["employees"] = { "count": nums[1] * 5 };
-        getStock(shop);
+        if (options.stockGen) {
+            getStock(shop);
+        }
         return shop;
     }
 
@@ -101,7 +125,7 @@ function ShopGen() {
 
     function getSpecificName(shop) {
         let value = nums[0] % 0.5 * 2;
-        if (value > 0.2) {
+        if (value > 0.2 && shop.owner) {
             getNamedAfterPerson(shop);
         }
         else {
@@ -171,9 +195,7 @@ function ShopGen() {
             const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
             const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
             const list = randItemCategory(rand1);
-            console.log(list);
             const itemKey = randItemKeyFrom(list, rand2);
-            console.log(itemKey);
             const item = cloneDeep(list[itemKey]);
             if (shop["stock"][itemKey] === undefined) {
                 shop["stock"][itemKey] = item;
@@ -214,6 +236,14 @@ function ShopGen() {
         }
     }
 
+    function toggleStockGen(setting) {
+        setOptions(options => ({ ...options, "stockGen": setting }));
+    }
+
+    function toggleOwnerGen(setting) {
+        setOptions(options => ({ ...options, "ownerGen": setting }));
+    }
+
     return (
         <div className='content'>
             <div className='left-controls'>
@@ -228,6 +258,20 @@ function ShopGen() {
                     color="secondary">
                     Generate Shop
                 </Button>
+                <FormGroup>
+                    <FormControlLabel
+                        control={<Checkbox
+                            color="secondary"
+                            onChange={e => toggleStockGen(e.target.checked)} />}
+                        label="Generate Stock"
+                        checked={options.stockGen} />
+                    <FormControlLabel
+                        control={<Checkbox
+                            color="secondary"
+                            onChange={e => toggleOwnerGen(e.target.checked)} />}
+                        label="Generate Owner's Name"
+                        checked={options.ownerGen} />
+                </FormGroup>
             </div>
             <div className='right-display'>
                 {results}
