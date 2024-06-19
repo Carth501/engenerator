@@ -32,34 +32,35 @@ function ShopGen() {
     }, []);
 
     function generate() {
-        let shop
-        if (seeded) {
-            shop = generateShop();
-        }
-        else {
-            const shopValues = [];
-            for (var i = 0; i < 4; i++) {
-                shopValues.push(Math.random());
-            }
-            setNums(shopValues);
-            shop = generateShop();
+        const shop = generateShop();
+        if (!seeded) {
+            generateUnseededNums();
         }
         setResults(writeText(shop));
     }
 
     function setSeed(new_seed) {
         if (new_seed === null || new_seed.trim() === "") {
+            generateUnseededNums();
             setSeeded(false);
         }
         else {
             rand = new Rand(new_seed);
             const shopValues = [];
-            for (var j = 0; j < 4; j++) {
+            for (var i = 0; i < 4; i++) {
                 shopValues.push(rand.next());
             }
             setNums(shopValues);
             setSeeded(true);
         }
+    }
+
+    function generateUnseededNums() {
+        const shopValues = [];
+        for (var i = 0; i < 4; i++) {
+            shopValues.push(Math.random());
+        }
+        setNums(shopValues);
     }
 
     function writeText(shop) {
