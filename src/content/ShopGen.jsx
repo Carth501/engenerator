@@ -4,7 +4,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Input from '@mui/material/Input';
 import cloneDeep from 'lodash.clonedeep';
 import Rand from 'rand-seed';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Items from './Items.json';
 import PersonNames from './PersonNames.json';
 import './ShopGen.css';
@@ -14,53 +14,45 @@ import { ageTransform, gaussianRandom } from './Tools.js';
 let rand = new Rand('1234');
 
 function ShopGen() {
-    const [nums, setNums] = useState([]);
+
     const [results, setResults] = useState("");
-    const [seeded, setSeeded] = useState(false);
     const [options, setOptions] = useState({
         "stockGen": true,
-        "ownerGen": true
+        "ownerGen": true,
+        "seed": null
     });
 
-    useEffect(() => {
-        const shopValues = [];
-        for (var i = 0; i < 4; i++) {
-            shopValues.push(Math.random());
-        }
-        setNums(shopValues);
-        return;
-    }, []);
-
     function generate() {
-        const shop = generateShop();
-        if (!seeded) {
-            generateUnseededNums();
+        let nums;
+        if (options.seed === null || options.seed === "") {
+            nums = generateUnseeded();
         }
+        else {
+            nums = generateSeeded(options.seed);
+        }
+        const shop = generateShop(nums);
         setResults(writeText(shop));
     }
 
-    function setSeed(new_seed) {
-        if (new_seed === null || new_seed.trim() === "") {
-            generateUnseededNums();
-            setSeeded(false);
-        }
-        else {
-            rand = new Rand(new_seed);
-            const shopValues = [];
-            for (var i = 0; i < 4; i++) {
-                shopValues.push(rand.next());
-            }
-            setNums(shopValues);
-            setSeeded(true);
-        }
+    function setSeed(newSeed) {
+        setOptions(options => ({ ...options, "seed": newSeed }));
     }
 
-    function generateUnseededNums() {
+    function generateSeeded(seed) {
+        rand = new Rand(seed);
+        const shopValues = [];
+        for (var i = 0; i < 4; i++) {
+            shopValues.push(rand.next());
+        }
+        return shopValues;
+    }
+
+    function generateUnseeded() {
         const shopValues = [];
         for (var i = 0; i < 4; i++) {
             shopValues.push(Math.random());
         }
-        setNums(shopValues);
+        return shopValues;
     }
 
     function writeText(shop) {
@@ -99,42 +91,42 @@ function ShopGen() {
         return text;
     }
 
-    function generateShop() {
+    function generateShop(nums) {
         const shop = {};
         if (options.ownerGen) {
             shop["owner"] = getRandomOfStringType("person", (nums[0] % 0.125 * 8));
         }
         if (nums[0] > 0.4 || (!shop.owner && nums[0] > 0.1)) {
-            getGenericName(shop);
+            getGenericName(shop, nums);
         }
         else {
-            getSpecificName(shop);
+            getSpecificName(shop, nums);
         }
         shop["age"] = ageTransform(nums[0], 10, 30);
         shop["employees"] = { "count": nums[1] * 5 };
         if (options.stockGen) {
-            getStock(shop);
+            getStock(shop, nums);
         }
         return shop;
     }
 
-    function getGenericName(shop) {
+    function getGenericName(shop, nums) {
         let value = nums[0] % 0.4 * 2.5;
         let nameIndex = Math.floor(ShopNames.generic_names.length * value);
         shop["name"] = ShopNames.generic_names[nameIndex];
     }
 
-    function getSpecificName(shop) {
+    function getSpecificName(shop, nums) {
         let value = nums[0] % 0.5 * 2;
         if (value > 0.2 && shop.owner) {
-            getNamedAfterPerson(shop);
+            getNamedAfterPerson(shop, nums);
         }
         else {
-            getNamedAfterItem(shop);
+            getNamedAfterItem(shop, nums);
         }
     }
 
-    function getNamedAfterItem(shop) {
+    function getNamedAfterItem(shop, nums) {
         const def = ShopNames.specific_names.named_after_item;
         let name = "";
         for (let i = 0; i < def.name.length; i++) {
@@ -142,13 +134,13 @@ function ShopGen() {
                 name = name.concat(def.name[i]);
             }
             if (def.inputs.length > i) {
-                name = name.concat(getRandomOfStringType(def.inputs[i]));
+                name = name.concat(getRandomOfStringType(def.inputs[i], nums));
             }
         }
         shop["name"] = name;
     }
 
-    function getNamedAfterPerson(shop) {
+    function getNamedAfterPerson(shop, nums) {
         const def = ShopNames.specific_names.named_after_person;
         let name = "";
         for (let i = 0; i < def.name.length; i++) {
@@ -160,7 +152,7 @@ function ShopGen() {
                     name = name.concat(shop.owner);
                 }
                 else {
-                    const person = getRandomOfStringType(def.inputs[i]);
+                    const person = getRandomOfStringType(def.inputs[i], nums);
                     name = name.concat(person);
                 }
             }
@@ -168,7 +160,7 @@ function ShopGen() {
         shop["name"] = name;
     }
 
-    function getRandomOfStringType(catagory, random = 0) {
+    function getRandomOfStringType(catagory, nums, random = 0) {
         let value = nums[0] % 0.25 * 4;
         if (catagory === "person") {
             const randomValue = PersonNames.generic_english.length * value;
@@ -186,7 +178,7 @@ function ShopGen() {
         }
     }
 
-    function getStock(shop) {
+    function getStock(shop, nums) {
         let value = nums[1];
         const itemCount = Math.round(15 + value * 30);
         shop["stock"] = {};
