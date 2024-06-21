@@ -1,4 +1,7 @@
-import { Checkbox, FormGroup } from '@mui/material';
+import { Checkbox, FormControl, FormGroup } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Input from '@mui/material/Input';
@@ -7,6 +10,7 @@ import Rand from 'rand-seed';
 import { useState } from 'react';
 import Items from './Items.json';
 import PersonNames from './PersonNames.json';
+import Specialties from './Specialties.json';
 import './ShopGen.css';
 import ShopNames from './ShopNames.json';
 import { ageTransform, gaussianRandom } from './Tools.js';
@@ -19,7 +23,8 @@ function ShopGen() {
     const [options, setOptions] = useState({
         "stockGen": true,
         "ownerGen": true,
-        "seed": null
+        "seed": null,
+        "specialty": 'general'
     });
 
     function generate() {
@@ -162,6 +167,7 @@ function ShopGen() {
             const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
             const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
             const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
+            console.log("rand1 = " + rand1);
             const list = randItemCategory(rand1);
             const itemKey = randItemKeyFrom(list, rand2);
             const item = cloneDeep(list[itemKey]);
@@ -184,10 +190,26 @@ function ShopGen() {
     }
 
     function randItemCategory(randomValue) {
-        const value = Object.keys(Items).length * randomValue;
-        const subcatagoryIndex = Math.floor(value);
-        const key = Object.keys(Items)[subcatagoryIndex];
-        return Items[key];
+        const categoryRatios = Specialties[options.specialty];
+        let value = ratioSum(categoryRatios) * randomValue;
+        const keys = Object.keys(categoryRatios);
+        let index = 0;
+        while (value > categoryRatios[keys[index]]) {
+            value -= categoryRatios[keys[index]];
+            index++;
+            //console.log(value + " - " + index);
+        }
+        //console.log("result item category key = " + keys[index]);
+        return Items[keys[index]];
+    }
+
+    function ratioSum(specialty) {
+        let total = 0;
+        const keys = Object.keys(specialty);
+        for (let i = 0; i < keys.length; i++) {
+            total += specialty[keys[i]];
+        }
+        return total;
     }
 
     function randItemKeyFrom(list, random) {
@@ -212,20 +234,24 @@ function ShopGen() {
         setOptions(options => ({ ...options, "ownerGen": setting }));
     }
 
+    const setSpecialty = (event) => {
+        setOptions(options => ({ ...options, "specialty": event.target.value }));
+    };
+
     return (
         <div className='content'>
             <div className='left-controls'>
-                <Input
-                    type="text"
-                    id="seed"
-                    placeholder='seed'
-                    onChange={e => setSeed(e.target.value)} />
                 <Button
                     variant="contained"
                     onClick={generate}
                     color="secondary">
                     Generate Shop
                 </Button>
+                <Input
+                    type="text"
+                    id="seed"
+                    placeholder='seed'
+                    onChange={e => setSeed(e.target.value)} />
                 <FormGroup>
                     <FormControlLabel
                         control={<Checkbox
@@ -239,6 +265,20 @@ function ShopGen() {
                             onChange={e => toggleOwnerGen(e.target.checked)} />}
                         label="Generate Owner's Name"
                         checked={options.ownerGen} />
+                    <FormControl variant="standard" fullWidth>
+                        <InputLabel id="specialty">Specialty</InputLabel>
+                        <Select
+                            labelId="specialty"
+                            id="specialty-select"
+                            value={options.specialty}
+                            onChange={setSpecialty}
+                            color="secondary"
+                        >
+                            <MenuItem value={'general'}>General Store</MenuItem>
+                            <MenuItem value={'livestock'}>Livestock</MenuItem>
+                            <MenuItem value={'construction'}>Construction</MenuItem>
+                        </Select>
+                    </FormControl>
                 </FormGroup>
             </div>
             <div className='right-display'>

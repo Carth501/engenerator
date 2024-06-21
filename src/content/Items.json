@@ -365,7 +365,7 @@
             "rarity": 1
         }
     },
-    "Lighting": {
+    "lighting": {
         "lamp": {
             "singular": "Lamp",
             "plural": "Lamps",
