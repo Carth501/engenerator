@@ -8,18 +8,15 @@ import Input from '@mui/material/Input';
 import cloneDeep from 'lodash.clonedeep';
 import Rand from 'rand-seed';
 import { useState } from 'react';
-import Items from './Items.json';
-import PersonNames from './PersonNames.json';
-import Specialties from './Specialties.json';
-import './ShopGen.css';
-import ShopNames from './ShopNames.json';
-import { ageTransform, gaussianRandom } from './Tools.js';
+import Items from '../Items.json';
+import PersonNames from '../PersonNames.json';
+import Specialties from '../Specialties.json';
+import ShopNames from '../ShopNames.json';
+import { ageTransform, gaussianRandom } from '../Tools.js';
 
 let rand = new Rand('1234');
 
-function ShopGen() {
-
-    const [results, setResults] = useState("");
+const ShopGen = ({ parentCallback }) => {
     const [options, setOptions] = useState({
         "stockGen": true,
         "ownerGen": true,
@@ -36,7 +33,7 @@ function ShopGen() {
             nums = generateSeeded(options.seed);
         }
         const shop = generateShop(nums);
-        setResults(writeText(shop));
+        parentCallback(shop);
     }
 
     function setSeed(newSeed) {
@@ -58,17 +55,6 @@ function ShopGen() {
             shopValues.push(Math.random());
         }
         return shopValues;
-    }
-
-    function writeText(shop) {
-        let text = "";
-        text += "Name: " + shop.name + "\n";
-        if (shop.owner) { text += "Owner: " + shop.owner + "\n"; }
-        text += "Number of Active Years: " + shop.age + "\n";
-        text += "Hours: Dawn to Dusk\n";
-        text += "Employees: " + Math.round(shop.employees.count) + "\n";
-        if (shop.stock) { text += writeStockList(shop.stock); }
-        return text;
     }
 
     function generateShop(nums) {
@@ -167,7 +153,6 @@ function ShopGen() {
             const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
             const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
             const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
-            console.log("rand1 = " + rand1);
             const list = randItemCategory(rand1);
             const itemKey = randItemKeyFrom(list, rand2);
             const item = cloneDeep(list[itemKey]);
@@ -197,9 +182,7 @@ function ShopGen() {
         while (value > categoryRatios[keys[index]]) {
             value -= categoryRatios[keys[index]];
             index++;
-            //console.log(value + " - " + index);
         }
-        //console.log("result item category key = " + keys[index]);
         return Items[keys[index]];
     }
 
@@ -239,82 +222,48 @@ function ShopGen() {
     };
 
     return (
-        <div className='content'>
-            <div className='left-controls'>
-                <Button
-                    variant="contained"
-                    onClick={generate}
-                    color="secondary">
-                    Generate Shop
-                </Button>
-                <Input
-                    type="text"
-                    id="seed"
-                    placeholder='seed'
-                    onChange={e => setSeed(e.target.value)} />
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Checkbox
-                            color="secondary"
-                            onChange={e => toggleStockGen(e.target.checked)} />}
-                        label="Generate Stock"
-                        checked={options.stockGen} />
-                    <FormControlLabel
-                        control={<Checkbox
-                            color="secondary"
-                            onChange={e => toggleOwnerGen(e.target.checked)} />}
-                        label="Generate Owner's Name"
-                        checked={options.ownerGen} />
-                    <FormControl variant="standard" fullWidth>
-                        <InputLabel id="specialty">Specialty</InputLabel>
-                        <Select
-                            labelId="specialty"
-                            id="specialty-select"
-                            value={options.specialty}
-                            onChange={setSpecialty}
-                            color="secondary"
-                        >
-                            <MenuItem value={'general'}>General Store</MenuItem>
-                            <MenuItem value={'livestock'}>Livestock</MenuItem>
-                            <MenuItem value={'construction'}>Construction</MenuItem>
-                        </Select>
-                    </FormControl>
-                </FormGroup>
-            </div>
-            <div className='right-display'>
-                {results}
-            </div>
+        <div className='left-controls'>
+            <Button
+                variant="contained"
+                onClick={generate}
+                color="secondary">
+                Generate Shop
+            </Button>
+            <Input
+                type="text"
+                id="seed"
+                placeholder='seed'
+                onChange={e => setSeed(e.target.value)} />
+            <FormGroup>
+                <FormControlLabel
+                    control={<Checkbox
+                        color="secondary"
+                        onChange={e => toggleStockGen(e.target.checked)} />}
+                    label="Generate Stock"
+                    checked={options.stockGen} />
+                <FormControlLabel
+                    control={<Checkbox
+                        color="secondary"
+                        onChange={e => toggleOwnerGen(e.target.checked)} />}
+                    label="Generate Owner's Name"
+                    checked={options.ownerGen} />
+                <FormControl variant="standard" fullWidth>
+                    <InputLabel id="specialty">Specialty</InputLabel>
+                    <Select
+                        labelId="specialty"
+                        id="specialty-select"
+                        value={options.specialty}
+                        onChange={setSpecialty}
+                        color="secondary"
+                    >
+                        <MenuItem value={'general'}>General Store</MenuItem>
+                        <MenuItem value={'livestock'}>Livestock</MenuItem>
+                        <MenuItem value={'construction'}>Construction</MenuItem>
+                    </Select>
+                </FormControl>
+            </FormGroup>
         </div>
     )
 }
-
-function writeStockList(stockList) {
-    let text = "Stock:\t";
-    const items = Object.keys(stockList);
-    const itemCount = items.length;
-    for (var i = 0; i < itemCount; i++) {
-        let line = "";
-        if (i > 0) {
-            line += "\t\t";
-        }
-        const number = stockList[items[i]].stock;
-        line += number + " ";
-        if (number === 1) {
-            line += stockList[items[i]].singular;
-        }
-        else {
-            line += stockList[items[i]].plural;
-        }
-        const adjust = stockList[items[i]].priceAdjustment;
-        const price = stockList[items[i]].price * adjust;
-        line += " @ " + price.toFixed(3);
-        const percent = (stockList[items[i]].priceAdjustment - 1) * 100;
-        line += " (" + (percent).toFixed(1) + "%)";
-        line += "\n";
-        text += line;
-    }
-    return text;
-}
-
 
 export default ShopGen;

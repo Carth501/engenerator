@@ -3,7 +3,7 @@ import cLogo from './images/cLogo.png';
 import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { engen_theme } from './theme';
-import ShopGen from './content/ShopGen';
+import ShopPage from './content/shop/ShopPage.jsx';
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           <img src={engenLogo} alt="engenerator" className='engen-logo' />
         </div>
         <div className='page'>
-          <ShopGen />
+          <ShopPage />
         </div>
         <footer className='App-footer'>
           <img src={cLogo} alt="site by C" className='designer-logo' />
