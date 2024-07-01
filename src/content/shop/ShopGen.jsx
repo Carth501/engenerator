@@ -43,7 +43,7 @@ const ShopGen = ({ parentCallback }) => {
     function generateSeeded(seed) {
         rand = new Rand(seed);
         const shopValues = [];
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 2; i++) {
             shopValues.push(rand.next());
         }
         return shopValues;
