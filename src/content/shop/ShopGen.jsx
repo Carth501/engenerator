@@ -1,22 +1,24 @@
 import { Checkbox, FormControl, FormGroup } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import cloneDeep from 'lodash.clonedeep';
-import Rand from 'rand-seed';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { increment } from '../../features/nums';
 import Items from '../Items.json';
 import PersonNames from '../PersonNames.json';
-import Specialties from '../Specialties.json';
 import ShopNames from '../ShopNames.json';
+import Specialties from '../Specialties.json';
 import { ageTransform, gaussianRandom } from '../Tools.js';
 
-let rand = new Rand('1234');
-
 const ShopGen = ({ parentCallback }) => {
+    const count = useSelector((state) => state.nums.value)
+    const nums = useSelector((state) => state.nums.shop)
+    const dispatch = useDispatch()
+
     const [options, setOptions] = useState({
         "stockGen": true,
         "ownerGen": true,
@@ -25,36 +27,10 @@ const ShopGen = ({ parentCallback }) => {
     });
 
     function generate() {
-        let nums;
-        if (options.seed === null || options.seed === "") {
-            nums = generateUnseeded();
-        }
-        else {
-            nums = generateSeeded(options.seed);
-        }
+        console.log("nums: ", nums);
         const shop = generateShop(nums);
         parentCallback(shop);
-    }
-
-    function setSeed(newSeed) {
-        setOptions(options => ({ ...options, "seed": newSeed }));
-    }
-
-    function generateSeeded(seed) {
-        rand = new Rand(seed);
-        const shopValues = [];
-        for (var i = 0; i < 2; i++) {
-            shopValues.push(rand.next());
-        }
-        return shopValues;
-    }
-
-    function generateUnseeded() {
-        const shopValues = [];
-        for (var i = 0; i < 4; i++) {
-            shopValues.push(Math.random());
-        }
-        return shopValues;
+        dispatch(increment())
     }
 
     function generateShop(nums) {
@@ -73,6 +49,7 @@ const ShopGen = ({ parentCallback }) => {
         if (options.stockGen) {
             getStock(shop, nums);
         }
+        shop["count"] = count
         return shop;
     }
 
@@ -229,11 +206,6 @@ const ShopGen = ({ parentCallback }) => {
                 color="secondary">
                 Generate Shop
             </Button>
-            <Input
-                type="text"
-                id="seed"
-                placeholder='seed'
-                onChange={e => setSeed(e.target.value)} />
             <FormGroup>
                 <FormControlLabel
                     control={<Checkbox
