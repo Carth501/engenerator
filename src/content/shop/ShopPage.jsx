@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import ShopDisplay from './ShopDisplay.jsx';
 import ShopGen from './ShopGen.jsx';
 import './ShopPage.css';
 
 function ShopPage() {
-    const [results, setResults] = useState("");
 
     const handleShop = (shop) => {
         setResults(writeText(shop));
@@ -12,9 +11,7 @@ function ShopPage() {
     return (
         <div className='content'>
             <ShopGen parentCallback={handleShop} />
-            <div className='right-display'>
-                {results}
-            </div>
+            <ShopDisplay />
         </div>
     )
 }

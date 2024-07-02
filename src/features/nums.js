@@ -3,21 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 export const numsSlice = createSlice({
     name: 'nums',
     initialState: {
-        value: 0,
-        shop: []
+        shopData: []
     },
     reducers: {
-        increment: (state) => {
-            state.value += 1
-        },
-        decrement: (state) => {
-            state.value -= 1
-        },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
-        },
         setNums: (state, action) => {
-            state.shop = action.payload
+            state.shopData = action.payload
         },
     },
 })
