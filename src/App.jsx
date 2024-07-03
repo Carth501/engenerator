@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import './App.css';
-import { SeedControls } from './content/SeedControls.jsx';
+import SeedControls from './content/shop/SeedControls.jsx';
 import ShopPage from './content/shop/ShopPage.jsx';
 import cLogo from './images/cLogo.png';
 import engenLogo from './images/engeneratorLogo.png';

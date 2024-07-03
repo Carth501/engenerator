@@ -7,7 +7,6 @@ import Select from '@mui/material/Select';
 import cloneDeep from 'lodash.clonedeep';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { increment } from '../../features/nums';
 import Items from '../Items.json';
 import PersonNames from '../PersonNames.json';
 import ShopNames from '../ShopNames.json';
@@ -27,10 +26,9 @@ const ShopGen = ({ parentCallback }) => {
     });
 
     function generate() {
-        console.log("nums: ", nums);
         const shop = generateShop(nums);
         parentCallback(shop);
-        dispatch(increment())
+        dispatch()
     }
 
     function generateShop(nums) {

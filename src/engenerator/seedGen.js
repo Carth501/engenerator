@@ -1,10 +1,6 @@
-import Input from '@mui/material/Input';
-import Rand from 'rand-seed';
-import { useDispatch } from 'react-redux';
-import { setNums } from '../features/nums';
+import { Rand } from 'rand-seed';
 
-export function SeedControls() {
-    const dispatch = useDispatch()
+export function OldSeedControls() {
 
     function setSeed(baseSeed) {
         generateSubSeeds(baseSeed);
@@ -18,7 +14,7 @@ export function SeedControls() {
         else {
             new_nums = generateSeeded(baseSeed);
         }
-        dispatch(setNums(new_nums))
+        console.log("generateSubSeeds!");
     }
 
     function generateSeeded(seed) {
@@ -40,10 +36,8 @@ export function SeedControls() {
     }
 
     return (
-        <Input
-            type="text"
-            id="seed"
-            placeholder='seed'
-            onChange={e => setSeed(e.target.value)} />
+        <div>
+            Old Seed Controls
+        </div>
     )
 }
