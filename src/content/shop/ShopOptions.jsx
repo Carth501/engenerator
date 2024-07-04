@@ -5,22 +5,22 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { useState } from 'react';
+import { connect } from "react-redux";
+import { setSeed } from '../../redux/actions';
 
-const ShopGen = () => {
-
-    const [options, setOptions] = useState();
-
+export function ShopOptions() {
+    const [options, setOptions] = useState({});
 
     function toggleStockGen(setting) {
-        setOptions(options => ({ ...options, "stockGen": setting }));
+        console.log(setting);
     }
 
     function toggleOwnerGen(setting) {
-        setOptions(options => ({ ...options, "ownerGen": setting }));
+        console.log(setting);
     }
 
-    const setSpecialty = (event) => {
-        setOptions(options => ({ ...options, "specialty": event.target.value }));
+    function setSpecialty(event) {
+        console.log(event);
     };
 
     return (
@@ -49,7 +49,7 @@ const ShopGen = () => {
                         labelId="specialty"
                         id="specialty-select"
                         value={options.specialty}
-                        onChange={setSpecialty}
+                        onChange={e => setSpecialty(e.target.value)}
                         color="secondary"
                     >
                         <MenuItem value={'general'}>General Store</MenuItem>
@@ -62,4 +62,7 @@ const ShopGen = () => {
     )
 }
 
-export default ShopGen;
+export default connect(
+    null,
+    { setSeed }
+)(ShopOptions);

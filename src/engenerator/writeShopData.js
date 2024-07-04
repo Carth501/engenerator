@@ -22,6 +22,7 @@ export function generateShop(nums, options) {
     if (options.stockGen) {
         shop["stock"] = getStock(nums, options);
     }
+    console.log("Generated shop: ", shop);
     return shop;
 }
 

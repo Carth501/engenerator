@@ -1,14 +1,13 @@
-import { connect } from "react-redux";
+import { useSelector } from "react-redux"
+import { getShopDisplay } from "../../redux/selectors"
 
-const ShopDisplay = ({ shopString }) => (
-    <div className='display'>
-        {shopString}
-    </div>
-)
+export function ShopDisplay() {
+    const displayString = useSelector(
+        getShopDisplay
+    )
 
-const mapStateToProps = state => {
-    const { shopString } = state || "";
-    return { shopString };
-};
-
-export default connect(mapStateToProps)(ShopDisplay);
+    return (
+        <div className='display'>
+            {displayString}
+        </div>)
+}

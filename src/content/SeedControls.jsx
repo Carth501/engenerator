@@ -1,7 +1,7 @@
 import Input from '@mui/material/Input';
 import React from "react";
 import { connect } from "react-redux";
-import { setSeed } from '../../redux/actions';
+import { setSeed } from '../redux/actions';
 
 class SeedControls extends React.Component {
     constructor(props) {

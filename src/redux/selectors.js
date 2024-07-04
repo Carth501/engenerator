@@ -1,4 +1,4 @@
-export const getRootSeed = store => store.rootSeed;
+export const getRootSeed = store => store.seed.rootSeed;
 
 // export const getSubSeeds = store => store.subSeeds;
 
@@ -7,4 +7,4 @@ export const getRootSeed = store => store.rootSeed;
 
 // export const getShopData = store => store.shopData;
 
-// export const getShopString = store => store.shopString;
+export const getShopDisplay = store => store.seed.shopDisplay;

@@ -1,5 +1,5 @@
 
-function writeText(shop) {
+export function writeShopText(shop) {
     let text = "";
     text += "Name: " + shop.name + "\n";
     if (shop.owner) { text += "Owner: " + shop.owner + "\n"; }

@@ -1,5 +1,6 @@
 import { generateSubSeeds } from "../../engenerator/seedGen";
 import { generateShop } from "../../engenerator/writeShopData";
+import { writeShopText } from "../../engenerator/writeShopDisplay";
 import { SET_ROOT_SEED } from "../actionTypes"; // SET_SUB_SEEDS
 const initialState = {
     rootSeed: "",
@@ -18,11 +19,13 @@ export default function seedReducer(state = initialState, action) {
             const { rootSeed } = action.payload;
             const subSeeds = generateSubSeeds(rootSeed);
             const shopData = generateShop(subSeeds, state.options)
+            const shopDisplay = writeShopText(shopData)
             return {
                 ...state,
                 rootSeed,
                 subSeeds,
-                shopData
+                shopData,
+                shopDisplay
             };
         }
         // case SET_SUB_SEEDS: {
