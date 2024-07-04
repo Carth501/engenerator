@@ -1,8 +1,15 @@
 import { generateSubSeeds } from "../../engenerator/seedGen";
+import { generateShop } from "../../engenerator/writeShopData";
 import { SET_ROOT_SEED } from "../actionTypes"; // SET_SUB_SEEDS
 const initialState = {
     rootSeed: "",
-    subSeeds: []
+    subSeeds: [],
+    options: {
+        "stockGen": true,
+        "ownerGen": true,
+        "seed": null,
+        "specialty": 'general'
+    }
 };
 
 export default function seedReducer(state = initialState, action) {
@@ -10,11 +17,12 @@ export default function seedReducer(state = initialState, action) {
         case SET_ROOT_SEED: {
             const { rootSeed } = action.payload;
             const subSeeds = generateSubSeeds(rootSeed);
-            const shopData = 2
+            const shopData = generateShop(subSeeds, state.options)
             return {
                 ...state,
                 rootSeed,
-                subSeeds
+                subSeeds,
+                shopData
             };
         }
         // case SET_SUB_SEEDS: {
