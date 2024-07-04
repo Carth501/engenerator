@@ -17,7 +17,7 @@
         width: calc((100% - 20px) / 3);
     }
 
-    .right-display {
+    .display {
         overflow: scroll;
         width: calc((100% - 20px) * 2 / 3);
     }
@@ -33,7 +33,7 @@
         width: 100%;
     }
 
-    .right-display {
+    .display {
         width: 100%;
     }
 }
@@ -44,7 +44,7 @@
     gap: 10px
 }
 
-.right-display {
+.display {
     text-align: left;
     white-space: preserve;
 }
