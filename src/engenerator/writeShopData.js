@@ -12,7 +12,7 @@ export function generateShop(nums, options) {
         shop["owner"] = getRandomOfStringType("person", nums);
     }
     if (nums[0] > 0.4 || (!shop.owner && nums[0] > 0.1)) {
-        shop["name"] = getGenericName(shop, nums);
+        shop["name"] = getGenericName(nums);
     }
     else {
         shop["name"] = getSpecificName(nums, shop.owner);
@@ -22,7 +22,6 @@ export function generateShop(nums, options) {
     if (options.stockGen) {
         shop["stock"] = getStock(nums, options);
     }
-    console.log("Generated shop: ", shop);
     return shop;
 }
 

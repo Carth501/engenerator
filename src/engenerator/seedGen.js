@@ -21,7 +21,6 @@ function generateSeeded(seed) {
 }
 
 function generateUnseeded() {
-    console.log("Unseeded");
     const shopValues = [];
     for (var i = 0; i < 2; i++) {
         shopValues.push(Math.random());
