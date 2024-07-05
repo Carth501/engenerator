@@ -16,19 +16,11 @@ export function ShopOptions() {
 
     useEffect(() => {
         const savedStockGen = Cookies.get("stockGen");
-        if (savedStockGen === "true") {
-            setStockGen(true);
-        }
-        else {
-            setStockGen(false);
-        }
+        setStockGen(savedStockGen === "true");
+
         const savedOwnerGen = Cookies.get("ownerGen");
-        if (savedOwnerGen === "true") {
-            setOwnerGen(true);
-        }
-        else {
-            setOwnerGen(false);
-        }
+        setOwnerGen(savedOwnerGen === "true");
+
         const savedSpecialty = Cookies.get("specialty");
         if (savedSpecialty) {
             setSpecialty(savedSpecialty);
