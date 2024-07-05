@@ -4,27 +4,28 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useState } from 'react';
 import { connect } from "react-redux";
 import { setSeed } from '../../redux/actions';
+import SeedControls from '../SeedControls.jsx';
+import { useCookie } from '../useCookie.js';
 
 export function ShopOptions() {
-    const [options, setOptions] = useState({});
+    const [stockGen, setStockGen, deleteStockGen] = useCookie("stockGen");
 
     function toggleStockGen(setting) {
-        console.log(setting);
+        setStockGen(setting);
     }
 
     function toggleOwnerGen(setting) {
-        console.log(setting);
+        console.log(document.cookie);
     }
 
     function setSpecialty(event) {
-        console.log(event);
     };
 
     return (
         <div className='left-controls'>
+            <SeedControls />
             <Button
                 variant="contained"
                 color="secondary">
@@ -34,21 +35,21 @@ export function ShopOptions() {
                 <FormControlLabel
                     control={<Checkbox
                         color="secondary"
-                        onChange={e => toggleStockGen(e.target.checked)} />}
-                    label="Generate Stock"
-                    checked={options.stockGen} />
+                        onChange={e => toggleStockGen(e.target.checked)}
+                        checked={{ stockGen }} />}
+                    label="Generate Stock" />
                 <FormControlLabel
                     control={<Checkbox
                         color="secondary"
                         onChange={e => toggleOwnerGen(e.target.checked)} />}
                     label="Generate Owner's Name"
-                    checked={options.ownerGen} />
+                    checked={true} />
                 <FormControl variant="standard" fullWidth>
                     <InputLabel id="specialty">Specialty</InputLabel>
                     <Select
                         labelId="specialty"
                         id="specialty-select"
-                        value={options.specialty}
+                        value="general"
                         onChange={e => setSpecialty(e.target.value)}
                         color="secondary"
                     >
