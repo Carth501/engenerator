@@ -1,5 +1,4 @@
-import { SET_ROOT_SEED } from "./actionTypes"; // SET_SHOP_DATA, SET_SHOP_DISPLAY, SET_SUB_SEEDS
-
+import { SET_ROOT_SEED, SET_SHOP_OPTIONS } from "./actionTypes";
 
 export const setSeed = seedString => ({
     type: SET_ROOT_SEED,
@@ -28,3 +27,14 @@ export const setSeed = seedString => ({
 //         shopString: shopString
 //     }
 // })
+
+export const setShopOptions = choices => ({
+    type: SET_SHOP_OPTIONS,
+    payload: {
+        options: {
+            "stockGen": choices.stockGen,
+            "ownerGen": choices.ownerGen,
+            "specialty": choices.specialty
+        }
+    }
+})

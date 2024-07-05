@@ -1,31 +1,24 @@
 import Input from '@mui/material/Input';
 import React from "react";
-import { connect } from "react-redux";
-import { setSeed } from '../redux/actions';
+import { useDispatch } from 'react-redux';
 
-class SeedControls extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+export const SeedControls = () => {
+    const dispatch = useDispatch();
 
-    updateInput = input => {
-        this.props.setSeed(input);
+    function updateInput(input) {
+        dispatch({
+            type: 'SET_ROOT_SEED',
+            payload: {
+                rootSeed: input
+            }
+        });
     };
 
-    render() {
-        return (
-            <Input
-                type="text"
-                id="seed"
-                placeholder='seed'
-                onChange={e => this.updateInput(e.target.value)} />
-        )
-    }
+    return (
+        <Input
+            type="text"
+            id="seed"
+            placeholder='seed'
+            onChange={e => updateInput(e.target.value)} />
+    )
 }
-
-export default connect(
-    null,
-    { setSeed }
-)(SeedControls);
-

@@ -1,27 +1,100 @@
-import { Checkbox, FormControl, FormGroup } from '@mui/material';
+import { Checkbox, FormControl } from '@mui/material';
 import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { connect } from "react-redux";
-import { setSeed } from '../../redux/actions';
-import SeedControls from '../SeedControls.jsx';
-import { useCookie } from '../useCookie.js';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
+import { useDispatch } from "react-redux";
+import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
-    const [stockGen, setStockGen, deleteStockGen] = useCookie("stockGen");
+    const [stockGen, setStockGen] = useState(true);
+    const [ownerGen, setOwnerGen] = useState(true);
+    const [specialty, setSpecialty] = useState('general');
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const savedStockGen = Cookies.get("stockGen");
+        if (savedStockGen === "true") {
+            setStockGen(true);
+        }
+        else {
+            setStockGen(false);
+        }
+        const savedOwnerGen = Cookies.get("ownerGen");
+        if (savedOwnerGen === "true") {
+            setOwnerGen(true);
+        }
+        else {
+            setOwnerGen(false);
+        }
+        const savedSpecialty = Cookies.get("specialty");
+        if (savedSpecialty) {
+            setSpecialty(savedSpecialty);
+        }
+        else {
+            setSpecialty('general');
+        }
+        const payload = {
+            options: {
+                "stockGen": savedStockGen || true,
+                "ownerGen": savedOwnerGen || true,
+                "specialty": savedSpecialty || 'general'
+            }
+        }
+        dispatch({
+            type: 'SET_SHOP_OPTIONS',
+            payload
+        });
+    }, [dispatch]);
 
     function toggleStockGen(setting) {
+        Cookies.set('stockGen', setting, { sameSite: 'strict' });
         setStockGen(setting);
+        const payload = {
+            options: {
+                "stockGen": setting,
+                "ownerGen": ownerGen,
+                "specialty": specialty
+            }
+        }
+        setOptions(payload);
+
     }
 
     function toggleOwnerGen(setting) {
-        console.log(document.cookie);
+        Cookies.set('ownerGen', setting, { sameSite: 'strict' });
+        setOwnerGen(setting);
+        const payload = {
+            options: {
+                "stockGen": stockGen,
+                "ownerGen": setting,
+                "specialty": specialty
+            }
+        }
+        setOptions(payload);
     }
 
-    function setSpecialty(event) {
+    function specifySpecialty(value) {
+        Cookies.set('specialty', value, { sameSite: 'strict' });
+        setSpecialty(value);
+        const payload = {
+            options: {
+                "stockGen": stockGen,
+                "ownerGen": ownerGen,
+                "specialty": value
+            }
+        }
+        setOptions(payload);
     };
+
+    function setOptions(payload) {
+        dispatch({
+            type: 'SET_SHOP_OPTIONS',
+            payload
+        });
+    }
 
     return (
         <div className='left-controls'>
@@ -31,39 +104,38 @@ export function ShopOptions() {
                 color="secondary">
                 Generate Shop
             </Button>
-            <FormGroup>
-                <FormControlLabel
-                    control={<Checkbox
+            <form className='options-list'>
+                <label>
+                    <Checkbox
                         color="secondary"
                         onChange={e => toggleStockGen(e.target.checked)}
-                        checked={{ stockGen }} />}
-                    label="Generate Stock" />
-                <FormControlLabel
-                    control={<Checkbox
+                        value={stockGen}
+                        checked={stockGen} />
+                    Generate Stock
+                </label>
+                <label>
+                    <Checkbox
                         color="secondary"
-                        onChange={e => toggleOwnerGen(e.target.checked)} />}
-                    label="Generate Owner's Name"
-                    checked={true} />
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel id="specialty">Specialty</InputLabel>
+                        onChange={e => toggleOwnerGen(e.target.checked)}
+                        value={ownerGen}
+                        checked={ownerGen} />
+                    Generate Owner's Name
+                </label>
+                <FormControl size="small">
                     <Select
                         labelId="specialty"
                         id="specialty-select"
-                        value="general"
-                        onChange={e => setSpecialty(e.target.value)}
+                        value={specialty}
+                        onChange={e => specifySpecialty(e.target.value)}
                         color="secondary"
                     >
+                        <MenuItem value={'no-specialty'}>No Specalty</MenuItem>
                         <MenuItem value={'general'}>General Store</MenuItem>
                         <MenuItem value={'livestock'}>Livestock</MenuItem>
                         <MenuItem value={'construction'}>Construction</MenuItem>
                     </Select>
                 </FormControl>
-            </FormGroup>
+            </form>
         </div>
     )
 }
-
-export default connect(
-    null,
-    { setSeed }
-)(ShopOptions);

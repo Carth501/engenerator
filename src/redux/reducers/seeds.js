@@ -1,14 +1,13 @@
 import { generateSubSeeds } from "../../engenerator/seedGen";
 import { generateShop } from "../../engenerator/writeShopData";
 import { writeShopText } from "../../engenerator/writeShopDisplay";
-import { SET_ROOT_SEED } from "../actionTypes"; // SET_SUB_SEEDS
+import { SET_ROOT_SEED, SET_SHOP_OPTIONS } from "../actionTypes";
 const initialState = {
     rootSeed: "",
     subSeeds: [],
     options: {
         "stockGen": true,
         "ownerGen": true,
-        "seed": null,
         "specialty": 'general'
     }
 };
@@ -28,13 +27,13 @@ export default function seedReducer(state = initialState, action) {
                 shopDisplay
             };
         }
-        // case SET_SUB_SEEDS: {
-        //     const { subSeeds } = action.payload;
-        //     return {
-        //         ...state,
-        //         subSeeds
-        //     };
-        // }
+        case SET_SHOP_OPTIONS: {
+            console.log("action.payload.options ", action.payload.options);
+            return {
+                ...state,
+                options: action.payload.options
+            };
+        }
         default:
             return state;
     }
