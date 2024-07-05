@@ -102,20 +102,34 @@ function getStock(nums, options) {
         const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
         const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
         const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
-        const list = randItemCategory(rand1, options.specialty);
-        const itemKey = randItemKeyFrom(list, rand2);
+        const rand5 = rand1 % (1 / (i + 6)) * (i + 6);
+        let list;
+        if (options.specialty === 'any-specialty') {
+            const rand_specialty = rand2 % (1 / (i + 3)) * (i + 3);
+            if (rand_specialty < 0.2) {
+                console.log('general specialty item');
+                list = randItemCategory(rand1, 'general');
+            } else {
+                const specialty_keys = Object.keys(Specialties);
+                const specialty = specialty_keys[Math.floor(specialty_keys.length * rand2)];
+                list = randItemCategory(rand1, specialty);
+            }
+        } else {
+            list = randItemCategory(rand1, options.specialty);
+        }
+        const itemKey = randItemKeyFrom(list, rand3);
         const item = cloneDeep(list[itemKey]);
         if (temp_shop[itemKey] === undefined) {
             temp_shop[itemKey] = item;
-            const randomStockDelta = item.variance * gaussianRandom(rand3);
+            const randomStockDelta = item.variance * gaussianRandom(rand4);
             const newStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
             temp_shop[itemKey].stock = newStock;
-            const priceRand = 0.15 * gaussianRandom(rand4) + 1;
+            const priceRand = 0.15 * gaussianRandom(rand5) + 1;
             const priceAdjustment = Math.max(priceRand, 0.1);
             temp_shop[itemKey].priceAdjustment = priceAdjustment;
         }
         else {
-            const randomStockDelta = item.variance * gaussianRandom(rand3);
+            const randomStockDelta = item.variance * gaussianRandom(rand4);
             const value = item.stock + Math.ceil(randomStockDelta);
             const additionalStock = Math.abs(value);
             temp_shop[itemKey].stock += additionalStock;

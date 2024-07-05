@@ -5,6 +5,7 @@ import Select from '@mui/material/Select';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
+import { RUN_SHOP_GENERATE, SET_SHOP_OPTIONS } from "../../redux/actionTypes";
 import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
@@ -36,7 +37,7 @@ export function ShopOptions() {
             }
         }
         dispatch({
-            type: 'SET_SHOP_OPTIONS',
+            type: SET_SHOP_OPTIONS,
             payload
         });
     }, [dispatch]);
@@ -83,8 +84,14 @@ export function ShopOptions() {
 
     function setOptions(payload) {
         dispatch({
-            type: 'SET_SHOP_OPTIONS',
+            type: SET_SHOP_OPTIONS,
             payload
+        });
+    }
+
+    function reprocess() {
+        dispatch({
+            type: RUN_SHOP_GENERATE,
         });
     }
 
@@ -93,7 +100,8 @@ export function ShopOptions() {
             <SeedControls />
             <Button
                 variant="contained"
-                color="secondary">
+                color="secondary"
+                onClick={reprocess}>
                 Generate Shop
             </Button>
             <form className='options-list'>
@@ -121,7 +129,7 @@ export function ShopOptions() {
                         onChange={e => specifySpecialty(e.target.value)}
                         color="secondary"
                     >
-                        <MenuItem value={'no-specialty'}>No Specalty</MenuItem>
+                        <MenuItem value={'any-specialty'}>Any Specialty</MenuItem>
                         <MenuItem value={'general'}>General Store</MenuItem>
                         <MenuItem value={'livestock'}>Livestock</MenuItem>
                         <MenuItem value={'construction'}>Construction</MenuItem>

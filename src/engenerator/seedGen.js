@@ -20,7 +20,7 @@ function generateSeeded(seed) {
     return shopValues;
 }
 
-function generateUnseeded() {
+export function generateUnseeded() {
     const shopValues = [];
     for (var i = 0; i < 2; i++) {
         shopValues.push(Math.random());

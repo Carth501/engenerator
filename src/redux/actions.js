@@ -1,4 +1,4 @@
-import { SET_ROOT_SEED, SET_SHOP_OPTIONS } from "./actionTypes";
+import { SET_ROOT_SEED, SET_SHOP_OPTIONS, RUN_SHOP_GENERATE } from "./actionTypes";
 
 export const setSeed = seedString => ({
     type: SET_ROOT_SEED,
@@ -37,4 +37,8 @@ export const setShopOptions = choices => ({
             "specialty": choices.specialty
         }
     }
+})
+
+export const runShopGen = () => ({
+    type: RUN_SHOP_GENERATE
 })
