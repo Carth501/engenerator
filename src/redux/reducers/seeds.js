@@ -1,4 +1,4 @@
-import { generateSubSeeds, generateUnseeded } from "../../engenerator/seedGen";
+import { generateSubSeeds } from "../../engenerator/seedGen";
 import { generateShop } from "../../engenerator/writeShopData";
 import { writeShopText } from "../../engenerator/writeShopDisplay";
 import { RUN_SHOP_GENERATE, SET_ROOT_SEED, SET_SHOP_OPTIONS } from "../actionTypes";
@@ -10,54 +10,33 @@ const initialState = {
         "ownerGen": true,
         "specialty": 'general'
     },
-    unseededGeneration: false,
     permitRegen: false
 };
 
 export default function seedReducer(state = initialState, action) {
     switch (action.type) {
         case RUN_SHOP_GENERATE: {
-            let shopData, permitRegen, unseededGeneration;
-            if (state.rootSeed && state.rootSeed !== '') {
-                shopData = generateShop(state.subSeeds, state.options);
-                permitRegen = false;
-                unseededGeneration = false;
-            } else {
-                shopData = generateShop(generateUnseeded(), state.options);
-                permitRegen = true;
-                unseededGeneration = true;
-            }
-            const shopDisplay = writeShopText(shopData);
+            const { rootSeed } = state;
+            const subSeeds = generateSubSeeds(rootSeed);
+            const results = seededShopGenerator(subSeeds, state.options);
+            const permitRegen = !rootSeed || rootSeed === null;
             return {
                 ...state,
-                shopData,
-                shopDisplay,
                 permitRegen,
-                unseededGeneration
+                ...results
             };
         }
         case SET_ROOT_SEED: {
             const { rootSeed } = action.payload;
             const subSeeds = generateSubSeeds(rootSeed);
-            let shopData, permitRegen, unseededGeneration;
-            if (state.rootSeed && state.rootSeed !== '') {
-                shopData = generateShop(state.subSeeds, state.options);
-                permitRegen = false;
-                unseededGeneration = false;
-            } else {
-                shopData = generateShop(generateUnseeded(), state.options);
-                permitRegen = true;
-                unseededGeneration = true;
-            }
-            const shopDisplay = writeShopText(shopData);
+            const results = seededShopGenerator(subSeeds, state.options);
+            const permitRegen = !rootSeed || rootSeed === null;
             return {
                 ...state,
                 rootSeed,
                 subSeeds,
-                shopData,
-                shopDisplay,
                 permitRegen,
-                unseededGeneration
+                ...results
             };
         }
         case SET_SHOP_OPTIONS: {
@@ -70,4 +49,10 @@ export default function seedReducer(state = initialState, action) {
         default:
             return state;
     }
+}
+
+function seededShopGenerator(subSeeds, options) {
+    const shopData = generateShop(subSeeds, options);
+    const shopDisplay = writeShopText(shopData);
+    return { shopData, shopDisplay };
 }
