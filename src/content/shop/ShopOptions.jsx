@@ -6,15 +6,15 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RUN_SHOP_GENERATE, SET_SHOP_OPTIONS } from "../../redux/actionTypes";
-import { getRequiresRegen } from "../../redux/selectors";
+import { getPermitRegen } from "../../redux/selectors";
 import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
     const [stockGen, setStockGen] = useState(true);
     const [ownerGen, setOwnerGen] = useState(true);
     const [specialty, setSpecialty] = useState('general');
-    const requiresRegen = useSelector(
-        getRequiresRegen
+    const permitRegen = useSelector(
+        getPermitRegen
     )
 
     const dispatch = useDispatch();
@@ -106,7 +106,7 @@ export function ShopOptions() {
                 variant="contained"
                 color="secondary"
                 onClick={reprocess}
-                disabled={!requiresRegen}>
+                disabled={!permitRegen}>
                 Generate Shop
             </Button>
             <form className='options-list'>

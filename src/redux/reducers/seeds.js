@@ -10,32 +10,45 @@ const initialState = {
         "ownerGen": true,
         "specialty": 'general'
     },
-    requiresRegen: false
+    unseededGeneration: false,
+    permitRegen: false
 };
 
 export default function seedReducer(state = initialState, action) {
     switch (action.type) {
         case RUN_SHOP_GENERATE: {
-            let shopData, requiresRegen;
-            if (state.rootSeed) {
+            let shopData, permitRegen, unseededGeneration;
+            if (state.rootSeed && state.rootSeed !== '') {
                 shopData = generateShop(state.subSeeds, state.options);
-                requiresRegen = false;
+                permitRegen = false;
+                unseededGeneration = false;
             } else {
                 shopData = generateShop(generateUnseeded(), state.options);
-                requiresRegen = true;
+                permitRegen = true;
+                unseededGeneration = true;
             }
-            let shopDisplay = writeShopText(shopData);
+            const shopDisplay = writeShopText(shopData);
             return {
                 ...state,
                 shopData,
                 shopDisplay,
-                requiresRegen
+                permitRegen,
+                unseededGeneration
             };
         }
         case SET_ROOT_SEED: {
             const { rootSeed } = action.payload;
             const subSeeds = generateSubSeeds(rootSeed);
-            const shopData = generateShop(subSeeds, state.options);
+            let shopData, permitRegen, unseededGeneration;
+            if (state.rootSeed && state.rootSeed !== '') {
+                shopData = generateShop(state.subSeeds, state.options);
+                permitRegen = false;
+                unseededGeneration = false;
+            } else {
+                shopData = generateShop(generateUnseeded(), state.options);
+                permitRegen = true;
+                unseededGeneration = true;
+            }
             const shopDisplay = writeShopText(shopData);
             return {
                 ...state,
@@ -43,14 +56,15 @@ export default function seedReducer(state = initialState, action) {
                 subSeeds,
                 shopData,
                 shopDisplay,
-                requiresRegen: false
+                permitRegen,
+                unseededGeneration
             };
         }
         case SET_SHOP_OPTIONS: {
             return {
                 ...state,
                 options: action.payload.options,
-                requiresRegen: true
+                permitRegen: true
             };
         }
         default:
