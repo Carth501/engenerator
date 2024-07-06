@@ -8,3 +8,5 @@ export const getRootSeed = store => store.seed.rootSeed;
 // export const getShopData = store => store.shopData;
 
 export const getShopDisplay = store => store.seed.shopDisplay;
+
+export const getRequiresRegen = store => store.seed.requiresRegen;

@@ -9,23 +9,27 @@ const initialState = {
         "stockGen": true,
         "ownerGen": true,
         "specialty": 'general'
-    }
+    },
+    requiresRegen: false
 };
 
 export default function seedReducer(state = initialState, action) {
     switch (action.type) {
         case RUN_SHOP_GENERATE: {
-            let shopData;
+            let shopData, requiresRegen;
             if (state.rootSeed) {
                 shopData = generateShop(state.subSeeds, state.options);
+                requiresRegen = false;
             } else {
                 shopData = generateShop(generateUnseeded(), state.options);
+                requiresRegen = true;
             }
             let shopDisplay = writeShopText(shopData);
             return {
                 ...state,
                 shopData,
-                shopDisplay
+                shopDisplay,
+                requiresRegen
             };
         }
         case SET_ROOT_SEED: {
@@ -38,13 +42,15 @@ export default function seedReducer(state = initialState, action) {
                 rootSeed,
                 subSeeds,
                 shopData,
-                shopDisplay
+                shopDisplay,
+                requiresRegen: false
             };
         }
         case SET_SHOP_OPTIONS: {
             return {
                 ...state,
-                options: action.payload.options
+                options: action.payload.options,
+                requiresRegen: true
             };
         }
         default:

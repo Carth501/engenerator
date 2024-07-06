@@ -4,14 +4,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RUN_SHOP_GENERATE, SET_SHOP_OPTIONS } from "../../redux/actionTypes";
+import { getRequiresRegen } from "../../redux/selectors";
 import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
     const [stockGen, setStockGen] = useState(true);
     const [ownerGen, setOwnerGen] = useState(true);
     const [specialty, setSpecialty] = useState('general');
+    const requiresRegen = useSelector(
+        getRequiresRegen
+    )
 
     const dispatch = useDispatch();
 
@@ -101,7 +105,8 @@ export function ShopOptions() {
             <Button
                 variant="contained"
                 color="secondary"
-                onClick={reprocess}>
+                onClick={reprocess}
+                disabled={!requiresRegen}>
                 Generate Shop
             </Button>
             <form className='options-list'>
