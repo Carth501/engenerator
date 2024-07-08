@@ -1,20 +1,19 @@
 import { Checkbox, FormControl } from '@mui/material';
-import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { RUN_SHOP_GENERATE, SET_SHOP_OPTIONS } from "../../redux/actionTypes";
-import { getPermitRegen } from "../../redux/selectors";
+import { RUN_SHOP_GENERATE } from "../../redux/actionTypes";
+import { getRootSeed } from "../../redux/selectors";
 import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
     const [stockGen, setStockGen] = useState(true);
     const [ownerGen, setOwnerGen] = useState(true);
     const [specialty, setSpecialty] = useState('general');
-    const permitRegen = useSelector(
-        getPermitRegen
+    const rootSeed = useSelector(
+        getRootSeed
     )
 
     const dispatch = useDispatch();
@@ -34,6 +33,7 @@ export function ShopOptions() {
             setSpecialty('general');
         }
         const payload = {
+            rootSeed,
             options: {
                 "stockGen": savedStockGen || true,
                 "ownerGen": savedOwnerGen || true,
@@ -41,15 +41,16 @@ export function ShopOptions() {
             }
         }
         dispatch({
-            type: SET_SHOP_OPTIONS,
+            type: RUN_SHOP_GENERATE,
             payload
         });
-    }, [dispatch]);
+    }, [dispatch, rootSeed]);
 
     function toggleStockGen(setting) {
         Cookies.set('stockGen', setting, { sameSite: 'strict' });
         setStockGen(setting);
         const payload = {
+            rootSeed,
             options: {
                 "stockGen": setting,
                 "ownerGen": ownerGen,
@@ -64,6 +65,7 @@ export function ShopOptions() {
         Cookies.set('ownerGen', setting, { sameSite: 'strict' });
         setOwnerGen(setting);
         const payload = {
+            rootSeed,
             options: {
                 "stockGen": stockGen,
                 "ownerGen": setting,
@@ -77,6 +79,7 @@ export function ShopOptions() {
         Cookies.set('specialty', value, { sameSite: 'strict' });
         setSpecialty(value);
         const payload = {
+            rootSeed,
             options: {
                 "stockGen": stockGen,
                 "ownerGen": ownerGen,
@@ -88,27 +91,14 @@ export function ShopOptions() {
 
     function setOptions(payload) {
         dispatch({
-            type: SET_SHOP_OPTIONS,
-            payload
-        });
-    }
-
-    function reprocess() {
-        dispatch({
             type: RUN_SHOP_GENERATE,
+            payload
         });
     }
 
     return (
         <div className='left-controls'>
             <SeedControls />
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={reprocess}
-                disabled={!permitRegen}>
-                Generate Shop
-            </Button>
             <form className='options-list'>
                 <label>
                     <Checkbox

@@ -9,4 +9,4 @@ export const getRootSeed = store => store.seed.rootSeed;
 
 export const getShopDisplay = store => store.seed.shopDisplay;
 
-export const getPermitRegen = store => store.seed.permitRegen;
+export const getOptions = store => store.seed.options;
