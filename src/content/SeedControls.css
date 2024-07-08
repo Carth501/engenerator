@@ -1,0 +1,10 @@
+.random-seed-button {
+    width: 32px;
+    height: 32px;
+}
+
+.seed-controls {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
