@@ -1,13 +1,15 @@
 import { Button } from '@mui/material';
 import Input from '@mui/material/Input';
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import dice from '../images/casino_dice.svg';
-import { getOptions } from '../redux/selectors';
+import { getOptions, getRootSeed } from "../redux/selectors";
 import './SeedControls.css';
 
 export const SeedControls = () => {
-    const [seedString, setSeedString] = useState('')
+    const rootSeed = useSelector(
+        getRootSeed
+    )
     const options = useSelector(
         getOptions
     )
@@ -20,7 +22,6 @@ export const SeedControls = () => {
     }
 
     function updateInput(input) {
-        setSeedString(input);
         dispatch({
             type: 'RUN_SHOP_GENERATE',
             payload: {
@@ -42,7 +43,7 @@ export const SeedControls = () => {
                 type="text"
                 id="seed"
                 placeholder='seed'
-                value={seedString}
+                value={rootSeed}
                 onChange={e => updateInput(e.target.value)} />
         </div>
     )

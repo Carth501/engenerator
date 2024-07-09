@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RUN_SHOP_GENERATE } from "../../redux/actionTypes";
 import { getRootSeed } from "../../redux/selectors";
-import { SeedControls } from '../SeedControls.jsx';
 
 export function ShopOptions() {
     const [stockGen, setStockGen] = useState(true);
@@ -98,7 +97,6 @@ export function ShopOptions() {
 
     return (
         <div className='left-controls'>
-            <SeedControls />
             <form className='options-list'>
                 <label>
                     <Checkbox

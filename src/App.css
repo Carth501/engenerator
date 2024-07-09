@@ -1,52 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Solway:wght@300;400;500;700;800&display=swap');
 
 .App {
-  text-align: center;
-  background-color: #272727;
-  height: 100vh;
-  font-size: 16px;
+    text-align: center;
+    background-color: #272727;
+    height: 100vh;
+    font-size: 16px;
 }
 
 .App-header {
-  background-color: #000000;
-  height: 50px;
-  max-height: 100px;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    display: flex;
+    background-color: #000000;
+    font-size: calc(10px + 2vmin);
+    padding: 8px;
+    color: white;
+}
+
+@media only screen and (min-width: 600px) {
+    .App-header {
+        justify-content: flex-end;
+        flex-direction: row-reverse;
+        gap: calc(50vw - 61.25px - 294px);
+    }
+
+    .page {
+        height: calc(100vh - 146px);
+    }
+}
+
+@media only screen and (max-width: 599px) {
+    .App-header {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px;
+    }
+
+    .page {
+        height: calc(100vh - 168px);
+    }
 }
 
 .engen-logo {
-  height: 40px;
-  aspect-ratio: 98 / 32;
-  max-height: 70px;
+    height: 40px;
+    aspect-ratio: 98 / 32;
+    max-height: 70px;
 }
 
 .page {
-  height: calc(100vh - 130px);
-  padding: 20px
+    padding: 20px
 }
 
 .App-footer {
-  position: relative;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #4080C0;
-  height: 40px;
-  max-height: 50px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: left;
-  color: white;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #4080C0;
+    height: 40px;
+    max-height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    color: white;
 }
 
 .designer-logo {
-  height: 40px;
-  width: 40px;
-  left: 20px;
+    height: 40px;
+    width: 40px;
+    left: 20px;
 }

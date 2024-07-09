@@ -1,5 +1,6 @@
 import { ThemeProvider } from '@mui/material/styles';
 import './App.css';
+import { SeedControls } from './content/SeedControls.jsx';
 import ShopPage from './content/shop/ShopPage.jsx';
 import cLogo from './images/cLogo.png';
 import engenLogo from './images/engeneratorLogo.png';
@@ -12,6 +13,7 @@ function App() {
             <ThemeProvider theme={engen_theme}>
                 <div className='App-header'>
                     <img src={engenLogo} alt="engenerator" className='engen-logo' />
+                    <SeedControls />
                 </div>
                 <div className='page'>
                     <ShopPage />
