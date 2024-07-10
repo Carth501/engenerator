@@ -95,7 +95,7 @@ function getRandomOfStringType(catagory, nums, random = 0) {
 
 function getStock(nums, options) {
     let value = nums[1];
-    const itemCount = Math.round(15 + value * 30);
+    const itemCount = Math.round(5 + value * 45);
     const temp_shop = {};
     for (var i = 0; i < itemCount; i++) {
         const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);

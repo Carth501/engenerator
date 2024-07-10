@@ -15,7 +15,8 @@
         "cooking": 2,
         "cleaning supplies": 3,
         "mechanical parts": 1,
-        "clothing": 2
+        "clothing": 2,
+        "weapons": 1
     },
     "livestock": {
         "livestock": 4,
@@ -33,7 +34,8 @@
         "cooking": 2,
         "cleaning supplies": 3,
         "mechanical parts": 1,
-        "clothing": 2
+        "clothing": 2,
+        "weapons": 0.5
     },
     "construction": {
         "livestock": 0,
@@ -51,6 +53,7 @@
         "cooking": 2,
         "cleaning supplies": 0.3,
         "mechanical parts": 1,
-        "clothing": 2
+        "clothing": 2,
+        "weapons": 0
     }
 }

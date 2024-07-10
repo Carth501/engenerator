@@ -285,6 +285,14 @@
             "variance": 16,
             "price": 0.06,
             "rarity": 1
+        },
+        "shortbow": {
+            "singular": "Shortbow",
+            "plural": "Shortbows",
+            "stock": 5,
+            "variance": 4,
+            "price": 3,
+            "rarity": 1
         }
     },
     "winter seasonals": {
@@ -533,6 +541,40 @@
             "variance": 4,
             "price": 0.1,
             "rarity": 1
+        }
+    },
+    "weapons": {
+        "dagger": {
+            "singular": "Dagger",
+            "plural": "Daggers",
+            "stock": 5,
+            "variance": 3,
+            "price": 0.21,
+            "rarity": 1
+        },
+        "shortsword": {
+            "singular": "Shortsword",
+            "plural": "Shortswords",
+            "stock": 3,
+            "variance": 2,
+            "price": 0.89,
+            "rarity": 1
+        },
+        "composite shortbow": {
+            "singular": "Composite Shortbow",
+            "plural": "Composite Shortbows",
+            "stock": 2,
+            "variance": 1,
+            "price": 14,
+            "rarity": 2
+        },
+        "longsword": {
+            "singular": "Longsword",
+            "plural": "Longswords",
+            "stock": 2,
+            "variance": 1,
+            "price": 1,
+            "rarity": 3
         }
     }
 }
