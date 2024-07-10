@@ -41,7 +41,7 @@ function a11yProps(index) {
 }
 
 function App() {
-    const [activeTab, setActiveTab] = useState('shops')
+    const [activeTab, setActiveTab] = useState(0);
 
 
     const handleChange = (event, newValue) => {
