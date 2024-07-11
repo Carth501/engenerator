@@ -5,12 +5,15 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { RUN_SHOP_GENERATE } from "../../redux/actionTypes";
-import { getRootSeed } from "../../redux/selectors";
+import { getRootSeed, shopCookieProcessed } from "../../redux/selectors";
 
 export function ShopOptions() {
     const [stockGen, setStockGen] = useState(true);
     const [ownerGen, setOwnerGen] = useState(true);
     const [specialty, setSpecialty] = useState('general');
+    const cookieProcessed = useSelector(
+        shopCookieProcessed
+    )
     const rootSeed = useSelector(
         getRootSeed
     )
@@ -18,11 +21,11 @@ export function ShopOptions() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const savedStockGen = Cookies.get("stockGen");
-        setStockGen(savedStockGen === "true");
+        const savedStockGen = Cookies.get("stockGen") === "true";
+        setStockGen(savedStockGen);
 
-        const savedOwnerGen = Cookies.get("ownerGen");
-        setOwnerGen(savedOwnerGen === "true");
+        const savedOwnerGen = Cookies.get("ownerGen") === "true";
+        setOwnerGen(savedOwnerGen);
 
         const savedSpecialty = Cookies.get("specialty");
         if (savedSpecialty) {
@@ -31,19 +34,22 @@ export function ShopOptions() {
         else {
             setSpecialty('general');
         }
-        const payload = {
-            rootSeed,
-            options: {
-                "stockGen": savedStockGen || true,
-                "ownerGen": savedOwnerGen || true,
-                "specialty": savedSpecialty || 'general'
+        if (!cookieProcessed) {
+            const payload = {
+                rootSeed,
+                options: {
+                    stockGen: savedStockGen || true,
+                    ownerGen: savedOwnerGen || true,
+                    specialty: savedSpecialty || 'general',
+                    shopCookieProcessed: true
+                }
             }
+            dispatch({
+                type: RUN_SHOP_GENERATE,
+                payload
+            });
         }
-        dispatch({
-            type: RUN_SHOP_GENERATE,
-            payload
-        });
-    }, [dispatch, rootSeed]);
+    }, [dispatch, rootSeed, cookieProcessed]);
 
     function toggleStockGen(setting) {
         Cookies.set('stockGen', setting, { sameSite: 'strict' });
@@ -51,9 +57,10 @@ export function ShopOptions() {
         const payload = {
             rootSeed,
             options: {
-                "stockGen": setting,
-                "ownerGen": ownerGen,
-                "specialty": specialty
+                stockGen: setting,
+                ownerGen: ownerGen,
+                specialty: specialty,
+                shopCookieProcessed: cookieProcessed
             }
         }
         setOptions(payload);
@@ -66,9 +73,10 @@ export function ShopOptions() {
         const payload = {
             rootSeed,
             options: {
-                "stockGen": stockGen,
-                "ownerGen": setting,
-                "specialty": specialty
+                stockGen: stockGen,
+                ownerGen: setting,
+                specialty: specialty,
+                shopCookieProcessed: cookieProcessed
             }
         }
         setOptions(payload);
@@ -80,9 +88,10 @@ export function ShopOptions() {
         const payload = {
             rootSeed,
             options: {
-                "stockGen": stockGen,
-                "ownerGen": ownerGen,
-                "specialty": value
+                stockGen: stockGen,
+                ownerGen: ownerGen,
+                specialty: value,
+                shopCookieProcessed: cookieProcessed
             }
         }
         setOptions(payload);

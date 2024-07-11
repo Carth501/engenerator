@@ -8,9 +8,10 @@ import { RUN_SHOP_GENERATE } from "../actionTypes";
 const initialState = {
     rootSeed: "",
     options: {
-        "stockGen": true,
-        "ownerGen": true,
-        "specialty": 'general'
+        stockGen: true,
+        ownerGen: true,
+        specialty: 'general',
+        shopCookieProcessed: false
     }
 };
 
