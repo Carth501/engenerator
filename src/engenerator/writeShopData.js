@@ -1,15 +1,15 @@
 
 import cloneDeep from 'lodash.clonedeep';
 import Items from '../content/Items.json';
-import PersonNames from '../content/PersonNames.json';
 import ShopNames from '../content/ShopNames.json';
 import Specialties from '../content/Specialties.json';
 import { ageTransform, gaussianRandom } from '../content/Tools.js';
+import { getRandomOfStringType } from './commonFunctions.js';
 
 export function generateShop(nums, options) {
     const shop = {};
     if (options.ownerGen) {
-        shop["owner"] = getRandomOfStringType("person", nums);
+        shop["owner"] = getRandomOfStringType("person", nums[0]);
     }
     if (nums[0] > 0.4 || (!shop.owner && nums[0] > 0.1)) {
         shop["name"] = getGenericName(nums);
@@ -49,7 +49,7 @@ function getNamedAfterItem(nums) {
             name = name.concat(def.name[i]);
         }
         if (def.inputs.length > i) {
-            name = name.concat(getRandomOfStringType(def.inputs[i], nums));
+            name = name.concat(getRandomOfStringType(def.inputs[i], nums[0]));
         }
     }
     return name;
@@ -67,30 +67,12 @@ function getNamedAfterPerson(nums, owner) {
                 name = name.concat(owner);
             }
             else {
-                const person = getRandomOfStringType(def.inputs[i], nums);
+                const person = getRandomOfStringType(def.inputs[i], nums[0]);
                 name = name.concat(person);
             }
         }
     }
     return name;
-}
-
-function getRandomOfStringType(catagory, nums, random = 0) {
-    let value = nums[0] % 0.25 * 4;
-    if (catagory === "person") {
-        const randomValue = PersonNames.generic_english.length * value;
-        const index = Math.floor(randomValue);
-        return PersonNames.generic_english[index];
-    }
-    else if (catagory === "plural_item") {
-        const randomValue = Object.keys(Items).length * value;
-        const subcatagoryIndex = Math.floor(randomValue);
-        const key = Object.keys(Items)[subcatagoryIndex];
-        const list = Items[key];
-        let itemIndex = Math.floor(random * Object.keys(list).length);
-        const itemKey = Object.keys(list)[itemIndex]
-        return list[itemKey].plural;
-    }
 }
 
 function getStock(nums, options) {

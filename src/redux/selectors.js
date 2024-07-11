@@ -10,3 +10,5 @@ export const getRootSeed = store => store.seed.rootSeed;
 export const getShopDisplay = store => store.seed.shopDisplay;
 
 export const getOptions = store => store.seed.options;
+
+export const getCharacterDisplay = store => store.seed.characterDisplay;
