@@ -18,7 +18,7 @@ export function generateShop(num, options) {
         shop["name"] = getSpecificName(num, shop.owner);
     }
     shop["age"] = ageTransform(num, 10, 30);
-    shop["employees"] = { "count": num[1] * 5 };
+    shop["employees"] = { "count": num * 5 };
     if (options.stockGen) {
         shop["stock"] = getStock(num, options);
     }
@@ -76,11 +76,11 @@ function getNamedAfterPerson(num, owner) {
 }
 
 function getStock(num, options) {
-    let value = num[1];
+    let value = num;
     const itemCount = Math.round(5 + value * 45);
     const temp_shop = {};
     for (var i = 0; i < itemCount; i++) {
-        const rand1 = num[1] % (1 / (i + 2)) * (i + 2);
+        const rand1 = num % (1 / (i + 2)) * (i + 2);
         const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
         const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
         const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
