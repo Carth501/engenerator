@@ -43,7 +43,7 @@ export const runShopGen = (seedString, choices) => ({
     type: RUN_SHOP_GENERATE,
     payload: {
         rootSeed: seedString,
-        options: {
+        shopOptions: {
             "stockGen": choices.stockGen,
             "ownerGen": choices.ownerGen,
             "specialty": choices.specialty

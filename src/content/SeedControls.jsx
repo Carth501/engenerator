@@ -10,7 +10,7 @@ export const SeedControls = () => {
     const rootSeed = useSelector(
         getRootSeed
     )
-    const options = useSelector(
+    const shopOptions = useSelector(
         getOptions
     )
 
@@ -26,7 +26,7 @@ export const SeedControls = () => {
             type: 'RUN_SHOP_GENERATE',
             payload: {
                 rootSeed: input,
-                options
+                shopOptions
             }
         });
     };

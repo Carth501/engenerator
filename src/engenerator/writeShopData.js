@@ -6,42 +6,42 @@ import Specialties from '../content/Specialties.json';
 import { ageTransform, gaussianRandom } from '../content/Tools.js';
 import { getRandomOfStringType } from './commonFunctions.js';
 
-export function generateShop(nums, options) {
+export function generateShop(num, options) {
     const shop = {};
     if (options.ownerGen) {
-        shop["owner"] = getRandomOfStringType("person", nums[0]);
+        shop["owner"] = getRandomOfStringType("person", num);
     }
-    if (nums[0] > 0.4 || (!shop.owner && nums[0] > 0.1)) {
-        shop["name"] = getGenericName(nums);
+    if (num > 0.4 || (!shop.owner && num > 0.1)) {
+        shop["name"] = getGenericName(num);
     }
     else {
-        shop["name"] = getSpecificName(nums, shop.owner);
+        shop["name"] = getSpecificName(num, shop.owner);
     }
-    shop["age"] = ageTransform(nums[0], 10, 30);
-    shop["employees"] = { "count": nums[1] * 5 };
+    shop["age"] = ageTransform(num, 10, 30);
+    shop["employees"] = { "count": num[1] * 5 };
     if (options.stockGen) {
-        shop["stock"] = getStock(nums, options);
+        shop["stock"] = getStock(num, options);
     }
     return shop;
 }
 
-function getGenericName(nums) {
-    let value = nums[0] % 0.4 * 2.5;
+function getGenericName(num) {
+    let value = num % 0.4 * 2.5;
     let nameIndex = Math.floor(ShopNames.generic_names.length * value);
     return ShopNames.generic_names[nameIndex];
 }
 
-function getSpecificName(nums, owner) {
-    let value = nums[0] % 0.5 * 2;
+function getSpecificName(num, owner) {
+    let value = num % 0.5 * 2;
     if (value > 0.2 && !!owner) {
-        return getNamedAfterPerson(nums, owner);
+        return getNamedAfterPerson(num, owner);
     }
     else {
-        return getNamedAfterItem(nums);
+        return getNamedAfterItem(num);
     }
 }
 
-function getNamedAfterItem(nums) {
+function getNamedAfterItem(num) {
     const def = ShopNames.specific_names.named_after_item;
     let name = "";
     for (let i = 0; i < def.name.length; i++) {
@@ -49,13 +49,13 @@ function getNamedAfterItem(nums) {
             name = name.concat(def.name[i]);
         }
         if (def.inputs.length > i) {
-            name = name.concat(getRandomOfStringType(def.inputs[i], nums[0]));
+            name = name.concat(getRandomOfStringType(def.inputs[i], num));
         }
     }
     return name;
 }
 
-function getNamedAfterPerson(nums, owner) {
+function getNamedAfterPerson(num, owner) {
     const def = ShopNames.specific_names.named_after_person;
     let name = "";
     for (let i = 0; i < def.name.length; i++) {
@@ -67,7 +67,7 @@ function getNamedAfterPerson(nums, owner) {
                 name = name.concat(owner);
             }
             else {
-                const person = getRandomOfStringType(def.inputs[i], nums[0]);
+                const person = getRandomOfStringType(def.inputs[i], num);
                 name = name.concat(person);
             }
         }
@@ -75,12 +75,12 @@ function getNamedAfterPerson(nums, owner) {
     return name;
 }
 
-function getStock(nums, options) {
-    let value = nums[1];
+function getStock(num, options) {
+    let value = num[1];
     const itemCount = Math.round(5 + value * 45);
     const temp_shop = {};
     for (var i = 0; i < itemCount; i++) {
-        const rand1 = nums[1] % (1 / (i + 2)) * (i + 2);
+        const rand1 = num[1] % (1 / (i + 2)) * (i + 2);
         const rand2 = rand1 % (1 / (i + 3)) * (i + 3);
         const rand3 = rand1 % (1 / (i + 4)) * (i + 4);
         const rand4 = rand1 % (1 / (i + 5)) * (i + 5);

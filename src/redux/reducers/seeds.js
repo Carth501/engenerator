@@ -1,4 +1,4 @@
-import { generateSubSeeds } from "../../engenerator/seedGen";
+import Rand from 'rand-seed';
 import { generateCharacter } from "../../engenerator/writeCharacterData";
 import { writeCharacterText } from "../../engenerator/writeCharacterDisplay";
 import { generateShop } from "../../engenerator/writeShopData";
@@ -7,7 +7,7 @@ import { RUN_SHOP_GENERATE } from "../actionTypes";
 
 const initialState = {
     rootSeed: "",
-    options: {
+    shopOptions: {
         stockGen: true,
         ownerGen: true,
         specialty: 'general',
@@ -18,14 +18,21 @@ const initialState = {
 export default function seedReducer(state = initialState, action) {
     switch (action.type) {
         case RUN_SHOP_GENERATE: {
-            const { rootSeed, options } = action.payload;
-            const subSeeds = generateSubSeeds(rootSeed);
-            const resultShop = seededShopGenerator(subSeeds, options);
-            const resultCharacter = seededCharacterGenerator(subSeeds[0]);
+            const { rootSeed, shopOptions } = action.payload;
+            let resultCharacter, resultShop;
+            if (rootSeed != null && rootSeed !== "") {
+                const rand = new Rand(rootSeed);
+                resultShop = seededShopGenerator(rand.next(), shopOptions);
+                resultCharacter = seededCharacterGenerator(rand.next());
+            }
+            else {
+                resultShop = seededShopGenerator(Math.random(), shopOptions);
+                resultCharacter = seededCharacterGenerator(Math.random());
+            }
             return {
                 ...state,
                 rootSeed,
-                options,
+                shopOptions,
                 ...resultCharacter,
                 ...resultShop
             };
@@ -35,8 +42,8 @@ export default function seedReducer(state = initialState, action) {
     }
 }
 
-function seededShopGenerator(subSeeds, options) {
-    const shopData = generateShop(subSeeds, options);
+function seededShopGenerator(subSeeds, shopOptions) {
+    const shopData = generateShop(subSeeds, shopOptions);
     const shopDisplay = writeShopText(shopData);
     return { shopData, shopDisplay };
 }

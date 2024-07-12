@@ -37,7 +37,7 @@ export function ShopOptions() {
         if (!cookieProcessed) {
             const payload = {
                 rootSeed,
-                options: {
+                shopOptions: {
                     stockGen: savedStockGen || true,
                     ownerGen: savedOwnerGen || true,
                     specialty: savedSpecialty || 'general',
@@ -56,7 +56,7 @@ export function ShopOptions() {
         setStockGen(setting);
         const payload = {
             rootSeed,
-            options: {
+            shopOptions: {
                 stockGen: setting,
                 ownerGen: ownerGen,
                 specialty: specialty,
@@ -72,7 +72,7 @@ export function ShopOptions() {
         setOwnerGen(setting);
         const payload = {
             rootSeed,
-            options: {
+            shopOptions: {
                 stockGen: stockGen,
                 ownerGen: setting,
                 specialty: specialty,
@@ -87,7 +87,7 @@ export function ShopOptions() {
         setSpecialty(value);
         const payload = {
             rootSeed,
-            options: {
+            shopOptions: {
                 stockGen: stockGen,
                 ownerGen: ownerGen,
                 specialty: value,
