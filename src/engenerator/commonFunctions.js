@@ -1,6 +1,7 @@
 import Items from '../content/Items.json';
 import Occupations from '../content/Occupations.json';
 import PersonNames from '../content/PersonNames.json';
+import Personalities from '../content/Personalities.json';
 
 export function getRandomOfStringType(catagory, num, random = 0) {
     let value = num % 0.25 * 4;
@@ -20,13 +21,13 @@ export function getRandomOfStringType(catagory, num, random = 0) {
         return list[itemKey].plural;
     }
     else if (catagory === "occupation") {
-        console.log(Occupations);
         const wealthKey = Object.keys(Occupations)[Math.floor(value)];
-        console.log(wealthKey, " ", Occupations[wealthKey]);
         const occupationValue = value % 0.5 * 2;
-        console.log("occupationValue ", occupationValue);
         const occupation = Math.floor(Occupations[wealthKey].length * occupationValue);
-        console.log(occupation);
         return Occupations[wealthKey][occupation];
+    }
+    else if (catagory === "personality") {
+        const personalityIndex = Math.floor(value * Personalities.length);
+        return Personalities[personalityIndex];
     }
 }
