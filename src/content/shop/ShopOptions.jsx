@@ -38,9 +38,9 @@ export function ShopOptions() {
             const payload = {
                 rootSeed,
                 shopOptions: {
-                    stockGen: savedStockGen || true,
-                    ownerGen: savedOwnerGen || true,
-                    specialty: savedSpecialty || 'general',
+                    stockGen: savedStockGen,
+                    ownerGen: savedOwnerGen,
+                    specialty: savedSpecialty,
                     shopCookieProcessed: true
                 }
             }
