@@ -18,17 +18,14 @@ const initialState = {
 export default function seedReducer(state = initialState, action) {
     switch (action.type) {
         case RUN_SHOP_GENERATE: {
-            const { rootSeed, shopOptions } = action.payload;
+            let { rootSeed, shopOptions } = action.payload;
             let resultCharacter, resultShop;
-            if (rootSeed != null && rootSeed !== "") {
-                const rand = new Rand(rootSeed);
-                resultShop = seededShopGenerator(rand.next(), shopOptions);
-                resultCharacter = seededCharacterGenerator(rand.next());
+            if (rootSeed === null || rootSeed === "") {
+                rootSeed = Math.floor(Math.random() * 4294967296);
             }
-            else {
-                resultShop = seededShopGenerator(Math.random(), shopOptions);
-                resultCharacter = seededCharacterGenerator(Math.random());
-            }
+            const rand = new Rand(rootSeed);
+            resultShop = seededShopGenerator(rand.next(), shopOptions);
+            resultCharacter = seededCharacterGenerator(rand.next());
             return {
                 ...state,
                 rootSeed,

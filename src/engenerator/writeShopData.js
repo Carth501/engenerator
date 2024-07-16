@@ -86,10 +86,9 @@ function getStock(num, options) {
         const rand4 = rand1 % (1 / (i + 5)) * (i + 5);
         const rand5 = rand1 % (1 / (i + 6)) * (i + 6);
         let list;
-        if (options.specialty === 'any-specialty') {
+        if (options.specialty === 'any-specialty' || options.specialty === undefined) {
             const rand_specialty = rand2 % (1 / (i + 3)) * (i + 3);
-            if (rand_specialty < 0.2) {
-                console.log('general specialty item');
+            if (rand_specialty > 0.2) {
                 list = randItemCategory(rand1, 'general');
             } else {
                 const specialty_keys = Object.keys(Specialties);
@@ -121,7 +120,7 @@ function getStock(num, options) {
 }
 
 function randItemCategory(randomValue, specialty_index) {
-    const categoryRatios = Specialties[specialty_index];
+    let categoryRatios = Specialties[specialty_index];
     let value = ratioSum(categoryRatios) * randomValue;
     const keys = Object.keys(categoryRatios);
     let index = 0;
