@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import './App.css';
 import CharacterPage from './content/character/CharacterPage.jsx';
+import { CharacterMap } from './content/character_map/CharacterMap.jsx';
 import { SeedControls } from './content/SeedControls.jsx';
 import ShopPage from './content/shop/ShopPage.jsx';
 import cLogo from './images/cLogo.png';
@@ -65,6 +66,7 @@ function App() {
                             textColor="secondary">
                             <Tab label="Shops" {...a11yProps(0)} />
                             <Tab label="Characters" {...a11yProps(1)} />
+							<Tab label="Character Map" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={activeTab} index={0}>
@@ -72,6 +74,9 @@ function App() {
                     </CustomTabPanel>
                     <CustomTabPanel value={activeTab} index={1}>
                         <CharacterPage />
+                    </CustomTabPanel>
+                    <CustomTabPanel value={activeTab} index={2}>
+                        <CharacterMap />
                     </CustomTabPanel>
                 </div>
                 <footer className='App-footer'>
