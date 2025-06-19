@@ -105,7 +105,7 @@ function getStock(num, options) {
             const randomStockDelta = item.variance * gaussianRandom(rand4);
             const newStock = Math.abs(item.stock + Math.ceil(randomStockDelta));
             temp_shop[itemKey].stock = newStock;
-            const priceRand = 0.15 * gaussianRandom(rand5) + 1;
+            const priceRand = 0.05 * gaussianRandom(rand5) + 1;
             const priceAdjustment = Math.max(priceRand, 0.1);
             temp_shop[itemKey].priceAdjustment = priceAdjustment;
         }
