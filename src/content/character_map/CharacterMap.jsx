@@ -123,12 +123,12 @@ export function CharacterMap() {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                  <TableCell className='table-header'><strong>Name</strong></TableCell>
-                  <TableCell className='table-header'><strong>Occupation</strong></TableCell>
-                  <TableCell className='table-header'><strong>Personality</strong></TableCell>
-                  <TableCell align="right" className='table-header'><strong>P1</strong></TableCell>
-                  <TableCell align="right" className='table-header'><strong>P2</strong></TableCell>
-                  <TableCell align="right" className='table-header'><strong>Wealth</strong></TableCell>
+                  <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Name</strong></TableCell>
+                  <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Occupation</strong></TableCell>
+                  <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Personality</strong></TableCell>
+                  <TableCell align="right" sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>P1</strong></TableCell>
+                  <TableCell align="right" sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>P2</strong></TableCell>
+                  <TableCell align="right" sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Wealth</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
