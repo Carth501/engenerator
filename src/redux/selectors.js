@@ -13,4 +13,6 @@ export const getOptions = store => store.seed.shopOptions;
 
 export const getCharacterDisplay = store => store.seed.characterDisplay;
 
+export const getCharacterMapData = store => store.seed.characterMapData;
+
 export const shopCookieProcessed = store => store.seed.shopOptions.shopCookieProcessed;

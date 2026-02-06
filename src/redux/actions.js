@@ -1,4 +1,4 @@
-import { RUN_SHOP_GENERATE } from "./actionTypes";
+import { RUN_CHARACTER_MAP_GENERATE, RUN_SHOP_GENERATE } from "./actionTypes";
 
 // export const setSeed = seedString => ({
 //     type: SET_ROOT_SEED,
@@ -49,4 +49,14 @@ export const runShopGen = (seedString, choices) => ({
             "specialty": choices.specialty
         }
     }
-})
+});
+
+export const runCharacterMapGen = (seedString, characterCount, latitude, longitude) => ({
+    type: RUN_CHARACTER_MAP_GENERATE,
+    payload: {
+        rootSeed: seedString,
+        characterCount,
+        latitude,
+        longitude
+    }
+});
