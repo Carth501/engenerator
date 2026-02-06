@@ -5,6 +5,7 @@
     background-color: #272727;
     height: 100vh;
     font-size: 16px;
+	overflow: hidden;
 }
 
 .App-header {
@@ -24,6 +25,7 @@
 
     .page {
         height: calc(100vh - 96px);
+		overflow: scroll;
     }
 }
 
@@ -36,7 +38,8 @@
     }
 
     .page {
-        height: calc(100vh - 128px);
+        max-height: calc(100vh - 146px);
+		overflow: scroll;
     }
 }
 

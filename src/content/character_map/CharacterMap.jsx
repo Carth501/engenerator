@@ -58,7 +58,7 @@ export function CharacterMap() {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 4 }} className='bulk-character-container'>
       <Typography variant="h4" gutterBottom sx={{ mb: 3 }} className='header'>
         Bulk Character Generator
       </Typography>
