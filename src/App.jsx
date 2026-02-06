@@ -66,7 +66,7 @@ function App() {
                             textColor="secondary">
                             <Tab label="Shops" {...a11yProps(0)} />
                             <Tab label="Characters" {...a11yProps(1)} />
-							<Tab label="Character Map" {...a11yProps(2)} />
+							<Tab label="Bulk Character Generator" {...a11yProps(2)} />
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={activeTab} index={0}>

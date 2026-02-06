@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { runCharacterMapGen } from '../../redux/actions';
 import { getCharacterMapData, getRootSeed } from '../../redux/selectors';
+import './CharacterMap.css';
 
 export function CharacterMap() {
   const dispatch = useDispatch();
@@ -58,8 +59,8 @@ export function CharacterMap() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-        Character Map Generator
+      <Typography variant="h4" gutterBottom sx={{ mb: 3 }} className='header'>
+        Bulk Character Generator
       </Typography>
 
       {/* Control Panel */}
@@ -114,7 +115,7 @@ export function CharacterMap() {
       {/* Results */}
       {characterMapData && (
         <Box>
-          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
+          <Typography variant="h6" gutterBottom sx={{ mb: 2 }} className='status'>
             Generated {characterMapData.characters.length} characters at Latitude {characterMapData.location.latitude}°, Longitude {characterMapData.location.longitude}°
           </Typography>
 
@@ -122,12 +123,12 @@ export function CharacterMap() {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                  <TableCell><strong>Name</strong></TableCell>
-                  <TableCell><strong>Occupation</strong></TableCell>
-                  <TableCell><strong>Personality</strong></TableCell>
-                  <TableCell align="right"><strong>P1</strong></TableCell>
-                  <TableCell align="right"><strong>P2</strong></TableCell>
-                  <TableCell align="right"><strong>Wealth</strong></TableCell>
+                  <TableCell className='table-header'><strong>Name</strong></TableCell>
+                  <TableCell className='table-header'><strong>Occupation</strong></TableCell>
+                  <TableCell className='table-header'><strong>Personality</strong></TableCell>
+                  <TableCell align="right" className='table-header'><strong>P1</strong></TableCell>
+                  <TableCell align="right" className='table-header'><strong>P2</strong></TableCell>
+                  <TableCell align="right" className='table-header'><strong>Wealth</strong></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
