@@ -37,7 +37,7 @@ export function CharacterMap() {
     let value = parseFloat(e.target.value);
     if (!isNaN(value)) {
       value = Math.max(-90, Math.min(90, value));
-      setLatitude(parseFloat(value.toFixed(1)));
+      setLatitude(parseFloat(value.toFixed(2)));
     }
   };
 
@@ -45,7 +45,7 @@ export function CharacterMap() {
     let value = parseFloat(e.target.value);
     if (!isNaN(value)) {
       value = ((value + 180) % 360) - 180;
-      setLongitude(parseFloat(value.toFixed(1)));
+      setLongitude(parseFloat(value.toFixed(2)));
     }
   };
 
@@ -72,7 +72,7 @@ export function CharacterMap() {
               type="number"
               value={latitude}
               onChange={handleLatitudeChange}
-              inputProps={{ min: -90, max: 90, step: 0.1 }}
+              inputProps={{ min: -90, max: 90, step: 0.01 }}
               fullWidth
               helperText="-90 to 90"
             />
@@ -83,7 +83,7 @@ export function CharacterMap() {
               type="number"
               value={longitude}
               onChange={handleLongitudeChange}
-              inputProps={{ min: -180, max: 180, step: 0.1 }}
+              inputProps={{ min: -180, max: 180, step: 0.01 }}
               fullWidth
               helperText="-180 to 180"
             />

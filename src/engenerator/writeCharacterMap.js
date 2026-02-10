@@ -3,6 +3,7 @@ import Rand from 'rand-seed';
 import Occupations from '../content/Occupations.json';
 import Personalities from '../content/Personalities.json';
 import PersonNames from '../content/PersonNames.json';
+import { blendLocationAndSeed } from './seedGen';
 
 // Wealth class thresholds for mapping continuous wealth values to discrete classes
 const WEALTH_WORKING_THRESHOLD = 0.6;
@@ -120,7 +121,9 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 		seed = Math.floor(Math.random() * 4294967296);
 	}
 	
-	const rng = new Rand(seed);
+	const blendedSeed = blendLocationAndSeed(latitude, longitude, seed);
+	console.log(`Blended Seed: ${blendedSeed} (Global Seed: ${seed}, Lat: ${latitude}, Lon: ${longitude})`);
+	const rng = new Rand(blendedSeed);
 	const personalityGrid = buildPersonalityGrid();
 	
 	// Sample Perlin noise at the fixed location for wealth median and variance
@@ -144,8 +147,8 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 			p1: parseFloat(p1.toFixed(3)),
 			p2: parseFloat(p2.toFixed(3)),
 			wealth: parseFloat(wealthValue.toFixed(3)),
-			latitude: parseFloat(latitude.toFixed(1)),
-			longitude: parseFloat(longitude.toFixed(1))
+			latitude: parseFloat(latitude.toFixed(2)),
+			longitude: parseFloat(longitude.toFixed(2))
 		};
 		
 		characters.push(character);
@@ -154,9 +157,9 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 	return {
 		characters,
 		location: {
-			latitude: parseFloat(latitude.toFixed(1)),
-			longitude: parseFloat(longitude.toFixed(1))
+			latitude: parseFloat(latitude.toFixed(2)),
+			longitude: parseFloat(longitude.toFixed(2))
 		},
-		seed
+		seed: blendedSeed
 	};
 }
