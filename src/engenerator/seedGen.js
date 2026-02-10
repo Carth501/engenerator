@@ -29,8 +29,5 @@ export function generateUnseeded() {
 }
 
 export function blendLocationAndSeed(latitude, longitude, globalSeed) {
-    const latInt = Math.round(latitude * 100);
-    const lonInt = Math.round(longitude * 100);
-    const combined = (globalSeed * 100000 + latInt) * 100000 + lonInt;
-    return combined;
+    return `${globalSeed}:${latitude}:${longitude}`;
 }

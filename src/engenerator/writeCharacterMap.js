@@ -122,8 +122,7 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 	}
 	
 	const blendedSeed = blendLocationAndSeed(latitude, longitude, seed);
-	console.log(`Blended Seed: ${blendedSeed} (Global Seed: ${seed}, Lat: ${latitude}, Lon: ${longitude})`);
-	const rng = new Rand(blendedSeed);
+	const rng = new Rand(String(blendedSeed));
 	const personalityGrid = buildPersonalityGrid();
 	
 	// Sample Perlin noise at the fixed location for wealth median and variance
