@@ -1,0 +1,42 @@
+[
+	{
+		"name": "Destitute",
+		"threshold": 0.0
+	},
+	{
+		"name": "Impoverished",
+		"threshold": 0.10
+	},
+	{
+		"name": "Struggling",
+		"threshold": 0.25
+	},
+	{
+		"name": "Getting By",
+		"threshold": 0.40
+	},
+	{
+		"name": "Comfortable",
+		"threshold": 0.55
+	},
+	{
+		"name": "Well-off",
+		"threshold": 0.70
+	},
+	{
+		"name": "Prosperous",
+		"threshold": 0.80
+	},
+	{
+		"name": "Wealthy",
+		"threshold": 0.90
+	},
+	{
+		"name": "Rich",
+		"threshold": 0.95
+	},
+	{
+		"name": "Opulent",
+		"threshold": 0.98
+	}
+]

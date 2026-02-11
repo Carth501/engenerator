@@ -3,6 +3,7 @@ import Rand from 'rand-seed';
 import Occupations from '../content/Occupations.json';
 import Personalities from '../content/Personalities.json';
 import PersonNames from '../content/PersonNames.json';
+import WealthDescriptors from '../content/WealthDescriptors.json';
 import { blendLocationAndSeed } from './seedGen';
 
 // Wealth class thresholds for mapping continuous wealth values to discrete classes
@@ -115,6 +116,20 @@ function getRandomName(rng) {
 	return PersonNames.generic_english[nameIndex];
 }
 
+function getWealthDescriptor(wealthValue, rng) {
+	const offset = (rng.next() * 0.3) - 0.15;
+	
+	const adjustedValue = Math.max(0, Math.min(1, wealthValue + offset));
+	
+	for (let i = WealthDescriptors.length - 1; i >= 0; i--) {
+		if (adjustedValue >= WealthDescriptors[i].threshold) {
+			return WealthDescriptors[i].name;
+		}
+	}
+	
+	return WealthDescriptors[0].name;
+}
+
 // Main character map generation function
 export function writeCharacterMapData(count, latitude, longitude, seed) {
 	if (seed === null || seed === "") {
@@ -146,6 +161,7 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 			p1: parseFloat(p1.toFixed(3)),
 			p2: parseFloat(p2.toFixed(3)),
 			wealth: parseFloat(wealthValue.toFixed(3)),
+			wealthDescriptor: getWealthDescriptor(wealthValue, rng),
 			latitude: parseFloat(latitude.toFixed(2)),
 			longitude: parseFloat(longitude.toFixed(2))
 		};

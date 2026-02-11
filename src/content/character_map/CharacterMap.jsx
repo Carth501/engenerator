@@ -139,7 +139,7 @@ export function CharacterMap() {
                     <TableCell>{character.personality}</TableCell>
                     <TableCell align="right">{character.p1.toFixed(3)}</TableCell>
                     <TableCell align="right">{character.p2.toFixed(3)}</TableCell>
-                    <TableCell align="right">{character.wealth.toFixed(3)}</TableCell>
+                    <TableCell align="right">{character.wealthDescriptor}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
