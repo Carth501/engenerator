@@ -130,6 +130,17 @@ function getWealthDescriptor(wealthValue, rng) {
 	return WealthDescriptors[0].name;
 }
 
+// Get wealth class based on wealth value
+function getWealthClass(wealthValue) {
+	if (wealthValue < WEALTH_WORKING_THRESHOLD) {
+		return 'Working Class';
+	} else if (wealthValue < WEALTH_MIDDLE_THRESHOLD) {
+		return 'Middle Class';
+	} else {
+		return 'Upper Class';
+	}
+}
+
 // Main character map generation function
 export function writeCharacterMapData(count, latitude, longitude, seed) {
 	if (seed === null || seed === "") {
@@ -161,6 +172,7 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 			p1: parseFloat(p1.toFixed(3)),
 			p2: parseFloat(p2.toFixed(3)),
 			wealth: parseFloat(wealthValue.toFixed(3)),
+			wealthClass: getWealthClass(wealthValue),
 			wealthDescriptor: getWealthDescriptor(wealthValue, rng),
 			latitude: parseFloat(latitude.toFixed(2)),
 			longitude: parseFloat(longitude.toFixed(2))
