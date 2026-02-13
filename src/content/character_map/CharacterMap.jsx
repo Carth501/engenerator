@@ -126,6 +126,7 @@ export function CharacterMap() {
                   <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Name</strong></TableCell>
                   <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Occupation</strong></TableCell>
                   <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Personality</strong></TableCell>
+                  <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Age</strong></TableCell>
                   <TableCell sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Wealth Class</strong></TableCell>
                   <TableCell align="right" sx={{ fontSize: 'larger', color: '#4a90e2' }}><strong>Wealth</strong></TableCell>
                 </TableRow>
@@ -136,6 +137,7 @@ export function CharacterMap() {
                     <TableCell>{character.name}</TableCell>
                     <TableCell>{character.occupation}</TableCell>
                     <TableCell>{character.personality}</TableCell>
+                    <TableCell>{character.age}</TableCell>
                     <TableCell>{character.wealthClass}</TableCell>
                     <TableCell align="right">{character.wealthDescriptor}</TableCell>
                   </TableRow>
