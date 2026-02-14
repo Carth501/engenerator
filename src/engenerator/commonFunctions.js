@@ -33,43 +33,105 @@ export function getRandomOfStringType(catagory, num, random = 0) {
 }
 
 /**
- * Generate age based on Perlin noise variables, wealth, and a smooth asymptotic polynomial curve.
- * Age ranges from 0-105 with hard clamp at 120.
- * Distribution is skewed toward younger ages with exponential drop-off at higher ages.
+ * Compute age distribution bump parameters based on Perlin noise at a location.
+ * Creates irregular, organic bumps in the age distribution using Perlin noise.
  * 
- * @param {number} noiseVar1 - Perlin noise variable (0-1)
- * @param {number} noiseVar2 - Perlin noise variable (0-1)
- * @param {number} noiseVar3 - Perlin noise variable (0-1)
- * @param {number} wealth - Wealth value (0-1), applied as minor modifier
- * @returns {number} - Age as integer (0-105, hard max 120)
+ * @param {number} noiseVar1 - Perlin noise variable (0-1), controls bump frequency
+ * @param {number} noiseVar2 - Perlin noise variable (0-1), controls bump amplitude
+ * @returns {object} - { bumpFrequency, bumpAmplitude, locationSeed }
  */
-export function generateAge(noiseVar1, noiseVar2, noiseVar3, wealth) {
-    // Combine noise variables: use them as coefficients for a cubic polynomial
-    // noiseVar1 influences base level, noiseVar2 influences curve, noiseVar3 influences variance
-    const a = noiseVar1 * 0.5;       // Cubic coefficient (0-0.5)
-    const b = noiseVar2 * 0.3;       // Quadratic coefficient (0-0.3)
-    const c = noiseVar3 * 60;        // Linear coefficient (0-60)
+export function getAgeBumpParams(noiseVar1, noiseVar2) {
+    // Map noise to bump parameters
+    const bumpFrequency = noiseVar1;        // Range: 0-1, controls spacing of bumps
+    const bumpAmplitude = noiseVar2;        // Range: 0-1, controls bump height
     
-    // Normalize x to 0-1 range
-    let x = noiseVar1; // Use noiseVar1 as the primary input variable
+    // Encode location seed for Perlin noise calls (use hash of the two noise values)
+    const locationSeed = (noiseVar1 * 73856093) ^ (noiseVar2 * 19349663);
     
-    // Smooth asymptotic polynomial: ax^3 + bx^2 + cx
-    // This produces values that approach a maximum asymptotically
-    let age = (a * x * x * x) + (b * x * x) + c;
+    return { bumpFrequency, bumpAmplitude, locationSeed };
+}
+
+/**
+ * Calculate probability density for a given age using a bumpy decay waveform.
+ * Base: exponential decay peaking at age 0
+ * Modulation: Perlin noise creates irregular, organic bumps
+ * Tail: steady decay preventing high probabilities at old ages
+ * 
+ * @param {number} age - Age value (0-120)
+ * @param {number} bumpFrequency - Controls bump spacing (0-1)
+ * @param {number} bumpAmplitude - Controls bump height (0-1)
+ * @param {Function} noiseFunction - Function(ageInput, seed) returning Perlin noise (-1 to 1)
+ * @param {number} locationSeed - Seed for Perlin noise to vary bumps by location
+ * @returns {number} - Probability density value (>=0)
+ */
+export function getAgeProbabilityDensity(age, bumpFrequency, bumpAmplitude, noiseFunction, locationSeed) {
+    // Base decay curve: exponential, peaks at age 0
+    const decayScale = 30;
+    const baseDecay = Math.exp(-age / decayScale);
     
-    // Apply wealth as minor modifier (±5%)
-    const wealthModifier = 1 + ((wealth - 0.5) * 0.1); // Range: 0.95 to 1.05
-    age = age * wealthModifier;
+    // Perlin noise modulation for irregular bumps
+    // Frequency controls how "fast" the bumps oscillate
+    const frequencyScale = 0.15 * bumpFrequency; // Range: 0-0.15
+    const noiseInput = age * frequencyScale;
     
-    // Smooth asymptotic approach by applying a scaling that increases near upper bound
-    // Use tanh-like scaling to smoothly approach asymptote without hard kink
-    const scaleFactor = 105 / (105 + Math.pow(Math.E, -(age / 15)));
-    age = age * scaleFactor;
+    // Get noise value (-1 to 1) and scale by amplitude
+    const noiseValue = noiseFunction(noiseInput, locationSeed);
+    const bumpModulation = 1 + (bumpAmplitude * 0.5 * noiseValue);
     
-    // Hard clamp at 120 as safety net
-    age = Math.min(120, Math.max(0, age));
+    // Steady increasing decay factor to taper off probability at high ages
+    const ageDecayFactor = Math.max(0.01, 1 - (age / 150));
     
-    return Math.round(age);
+    // Combine: base decay * bump modulation * age decay factor
+    const probability = baseDecay * bumpModulation * ageDecayFactor;
+    
+    return Math.max(0, probability);
+}
+
+/**
+ * Generate age by rejection sampling from the bumpy decay distribution.
+ * Each character independently samples, creating varied ages at the same location.
+ * 
+ * @param {Rand} rng - Seeded random number generator
+ * @param {number} bumpFrequency - Bump frequency parameter (0-1)
+ * @param {number} bumpAmplitude - Bump amplitude parameter (0-1)
+ * @param {number} locationSeed - Location seed for Perlin noise
+ * @param {Function} noiseFunction - Function(ageInput, seed) for Perlin noise
+ * @param {number} wealth - Wealth value (0-1), applied as minor modifier (±5%)
+ * @returns {number} - Age as integer (0-120)
+ */
+export function generateAge(rng, bumpFrequency, bumpAmplitude, locationSeed, noiseFunction, wealth) {
+    const maxIterations = 100;
+    
+    // Find the maximum probability density to use for rejection sampling
+    const maxProbability = getAgeProbabilityDensity(0, bumpFrequency, bumpAmplitude, noiseFunction, locationSeed);
+    
+    for (let iter = 0; iter < maxIterations; iter++) {
+        // Sample random age uniformly
+        const candidateAge = rng.next() * 120;
+        
+        // Evaluate probability at this age
+        const candidateProbability = getAgeProbabilityDensity(candidateAge, bumpFrequency, bumpAmplitude, noiseFunction, locationSeed);
+        
+        // Acceptance test: accept with probability proportional to density
+        const acceptanceRoll = rng.next() * maxProbability;
+        
+        if (acceptanceRoll < candidateProbability) {
+            // Accept this age
+            let age = candidateAge;
+            
+            // Apply wealth as minor modifier (±5%)
+            const wealthModifier = 1 + ((wealth - 0.5) * 0.1);
+            age = age * wealthModifier;
+            
+            // Hard clamp at 120
+            age = Math.min(120, Math.max(0, age));
+            
+            return Math.round(age);
+        }
+    }
+    
+    // Fallback (rare): if rejection sampling doesn't converge, return young age
+    return Math.round(rng.next() * 30);
 }
 
 /**

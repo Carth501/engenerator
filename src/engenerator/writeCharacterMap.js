@@ -4,7 +4,7 @@ import Occupations from '../content/Occupations.json';
 import Personalities from '../content/Personalities.json';
 import PersonNames from '../content/PersonNames.json';
 import WealthDescriptors from '../content/WealthDescriptors.json';
-import { generateAge, getRetirementProbability } from './commonFunctions';
+import { generateAge, getAgeBumpParams, getRetirementProbability } from './commonFunctions';
 import { blendLocationAndSeed } from './seedGen';
 
 // Wealth class thresholds for mapping continuous wealth values to discrete classes
@@ -156,10 +156,12 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 	const wealthMedian = noise(latitude, longitude, 0);
 	const wealthVariance = Math.abs(noise(latitude, longitude, 1)) + 0.1; // Ensure variance > 0
 	
-	// Sample Perlin noise variables for age generation
+	// Sample Perlin noise variables for age bump parameters (frequency and amplitude)
 	const ageNoiseVar1 = Math.abs(noise(latitude, longitude, 2));
 	const ageNoiseVar2 = Math.abs(noise(latitude, longitude, 3));
-	const ageNoiseVar3 = Math.abs(noise(latitude, longitude, 4));
+	
+	// Get age bump parameters based on location's Perlin noise
+	const { bumpFrequency, bumpAmplitude, locationSeed } = getAgeBumpParams(ageNoiseVar1, ageNoiseVar2);
 	
 	const characters = [];
 	
@@ -171,8 +173,8 @@ export function writeCharacterMapData(count, latitude, longitude, seed) {
 		// Sample wealth from normal distribution using Perlin noise-derived parameters
 		const wealthValue = boxMullerSample(rng, wealthMedian, wealthVariance, 0, 1);
 		
-		// Generate age based on noise and wealth
-		const age = generateAge(ageNoiseVar1, ageNoiseVar2, ageNoiseVar3, wealthValue);
+		// Generate age by rejection sampling from the bumpy decay distribution
+		const age = generateAge(rng, bumpFrequency, bumpAmplitude, locationSeed, noise, wealthValue);
 		
 		// Determine occupation: check if character should be retired
 		let occupation;
