@@ -1,25 +1,28 @@
 {
-    "Working Class": [
-        "Street Sweeper",
-        "Cobbler",
-        "Hunter",
-        "Shrubber",
-        "Seamster",
-        "Farmer",
-        "Homesteader",
-        "Rancher",
-        "Artist"
-    ],
-    "Middle Class": [
-        "Merchant",
-        "Shopkeeper",
-        "Innkeeper",
-        "Tavernkeeper",
-        "Guard"
-    ],
-    "Upper Class": [
-        "Aristocrat",
-        "Millitary Officer",
-        "Mage"
-    ]
+	"Working Class": [
+		"Street Sweeper",
+		"Cobbler",
+		"Hunter",
+		"Shrubber",
+		"Seamster",
+		"Farmer",
+		"Homesteader",
+		"Rancher",
+		"Artist",
+		"Retired"
+	],
+	"Middle Class": [
+		"Merchant",
+		"Shopkeeper",
+		"Innkeeper",
+		"Tavernkeeper",
+		"Guard",
+		"Retired"
+	],
+	"Upper Class": [
+		"Aristocrat",
+		"Millitary Officer",
+		"Mage",
+		"Retired"
+	]
 }
